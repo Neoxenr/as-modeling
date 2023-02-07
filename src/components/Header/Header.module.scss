@@ -1,0 +1,12 @@
+@import '../../styles/variables';
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  background-color: $header-bg-color;
+
+  .info {
+    display: flex;
+    align-items: center;
+  }
+}
