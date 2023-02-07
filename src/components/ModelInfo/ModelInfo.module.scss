@@ -1,0 +1,32 @@
+.header {
+  padding: 20px;
+  align-items: flex-start;
+
+  .info {
+    row-gap: 20px;
+
+    .model {
+      row-gap: 10px;
+      margin-left: 10px;
+
+      .name {
+        align-items: center;
+        column-gap: 20px;
+      }
+    }
+  }
+
+  .btnGroup {
+    align-items: end;
+    column-gap: 30px;
+
+    .settings {
+      column-gap: 20px;
+      align-items: flex-end;
+    }
+
+    .actions {
+      column-gap: 10px;
+    }
+  }
+}

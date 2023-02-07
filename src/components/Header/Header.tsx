@@ -1,19 +1,26 @@
 import React, { ReactElement } from 'react';
 
 import { Button } from '@consta/uikit/Button';
+import { Text } from '@consta/uikit/Text';
+import { Layout } from '@consta/uikit/Layout';
+
 import { IconRing } from '@consta/icons/IconRing';
 
 import styles from './Header.module.scss';
 
 function Header(): ReactElement {
   return (
-    <div className={styles.header}>
-      <h1 className={styles.title}>Моделирование</h1>
-      <div className={styles.info}>
-        <p className={styles.username}>Христорождественский А.А.</p>
+    <Layout className={styles.header}>
+      <Text className={styles.title} size="xl" weight="bold">
+        Моделирование
+      </Text>
+      <Layout className={styles.info}>
+        <Text weight="semibold" size="s" className={styles.username}>
+          Христорождественский А.А.
+        </Text>
         <Button onlyIcon iconLeft={IconRing} view="clear" />
-      </div>
-    </div>
+      </Layout>
+    </Layout>
   );
 }
 
