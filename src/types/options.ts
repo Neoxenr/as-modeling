@@ -6,7 +6,8 @@ interface ToolTip {
 }
 
 interface Grid {
-  left?: string;
+  right: string;
+  left: string;
   show: boolean;
 }
 
@@ -18,29 +19,29 @@ interface XAxis {
   data: string[];
 }
 
-interface YAxis {
-  type: string;
-  name: string;
-  show: boolean;
-  position: string;
-  alignTicks: boolean;
-  offset: number;
-  axisLine: {
-    show: boolean;
-    lineStyle: {
-      color: string;
-    };
-  };
-  axisLabel: {
-    formatter: string;
-  };
-}
-
 interface YValues {
   name: string;
   type: string;
   yAxisIndex: number;
   data: number[];
+}
+
+export interface YAxis {
+  type?: string;
+  name?: string;
+  show: boolean;
+  position?: string;
+  alignTicks?: boolean;
+  offset: number;
+  axisLine?: {
+    show: boolean;
+    lineStyle: {
+      color: string;
+    };
+  };
+  axisLabel?: {
+    formatter: string;
+  };
 }
 
 export interface Options {
@@ -51,10 +52,10 @@ export interface Options {
   legend: {
     show: boolean;
     selected: {
-      [key: string]: string;
+      [key: string]: boolean;
     };
   };
   xAxis: XAxis;
-  yAxis: Partial<YAxis>[];
+  yAxis: YAxis[];
   series: YValues[];
 }

@@ -1,9 +1,12 @@
+// React
 import React, { ReactElement, ReactNode, useRef, useState } from 'react';
 
-import { Button } from '@consta/uikit/Button';
+// Consta components
 import { Card } from '@consta/uikit/Card';
 import { Popover as PopoverConsta } from '@consta/uikit/Popover';
-import { IconComponent } from '@consta/icons/Icon';
+
+// SCSS
+import styles from './Popover.module.scss';
 
 interface PopoverProps {
   button?: ReactNode;
@@ -29,6 +32,7 @@ function Popover({ button, children }: PopoverProps): ReactElement {
         {button}
       </div>
       <PopoverConsta
+        className={styles.popover}
         hidden={!isPopoverVisible}
         offset="xs"
         direction="downStartLeft"
@@ -36,7 +40,7 @@ function Popover({ button, children }: PopoverProps): ReactElement {
         onClickOutside={handleClickOnOutside}
         anchorRef={anchorRef}
       >
-        <Card shadow form="square" verticalSpace="xs" horizontalSpace="xs">
+        <Card shadow form="square" verticalSpace="s" horizontalSpace="s">
           {children}
         </Card>
       </PopoverConsta>

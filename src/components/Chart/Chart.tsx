@@ -10,12 +10,22 @@ import ReactEcharts from 'echarts-for-react';
 import { RootState } from '../../store';
 
 // Types
-import { Options } from '../../types/chart/options';
+import { Options } from '../../types/options';
 
-function Chart(): ReactElement {
+interface ChartProps {
+  height: number;
+}
+
+function Chart({ height }: ChartProps): ReactElement {
   const options: Options = useSelector((state: RootState) => state.chartConfig);
 
-  return <ReactEcharts opts={{ renderer: 'svg' }} option={options} />;
+  return (
+    <ReactEcharts
+      style={{ height: `${height}px` }}
+      opts={{ renderer: 'svg' }}
+      option={options}
+    />
+  );
 }
 
 export default Chart;

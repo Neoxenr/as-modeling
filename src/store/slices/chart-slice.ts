@@ -4,9 +4,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 // Types
-import { Options } from '../../types/chart/options';
-import { Parameter } from '../../types/chart/parameter';
-import { Point } from '../../types/chart/point';
+import { Options, YAxis } from '../../types/options';
+import { Parameter } from '../../types/parameter';
+import { Point } from '../../types/point';
 
 // Colors
 import { COLORS } from '../../config/colors';
@@ -23,7 +23,8 @@ const initialState: Options = {
     }
   },
   grid: {
-    left: '30%',
+    right: 'left',
+    left: 'center',
     show: true
   },
   legend: {
@@ -37,7 +38,7 @@ const initialState: Options = {
     },
     data: []
   },
-  yAxis: [{ show: false }],
+  yAxis: [{ show: false, offset: 0 }],
   series: []
 };
 
@@ -46,13 +47,17 @@ const chartSlice = createSlice({
   initialState,
   reducers: {
     addData: (state, action) => {
-      state.xAxis.data = action.payload[0].points.map(
-        (point: Point) => point.d
-      );
+      const { payload } = action;
+
+      const { grid, xAxis } = state;
+
+      grid.left = `${payload.length * 100}px`;
+
+      xAxis.data = payload[0].points.map((point: Point) => point.d);
 
       state.yAxis = [
         ...state.yAxis,
-        ...action.payload.map((param: Parameter, index: number) => ({
+        ...payload.map((param: Parameter, index: number) => ({
           type: 'value',
           name: param.description,
           position: 'left',
@@ -70,23 +75,45 @@ const chartSlice = createSlice({
         }))
       ];
 
-      state.series = action.payload.map((param: Parameter, index: number) => ({
+      state.series = payload.map((param: Parameter, index: number) => ({
         name: param.description,
         type: 'line',
         yAxisIndex: index + 1,
         data: param.points.map((point) => point.v)
       }));
     },
-    setOption: (state, action) => {
+    setOptions: (state, action) => {
       const { payload } = action;
 
       const optionValue = getPropValues(state, ...payload.option);
 
       optionValue[payload.key] = payload.value;
+    },
+    switchYAxis: (state, action) => {
+      const { payload } = action;
+
+      const { grid, yAxis } = state;
+      const { selected } = state.legend;
+
+      const shift: number = payload.visible ? -100 : 100;
+
+      const index: number = yAxis.findIndex(
+        (item: YAxis) => item.name === payload.name
+      );
+
+      grid.left = `${parseInt(grid.left, 10) + shift}px`;
+
+      yAxis[index].show = !payload.visible;
+
+      for (let i = index + 1; i < yAxis.length; i += 1) {
+        yAxis[i].offset += shift;
+      }
+
+      selected[payload.name] = !payload.visible;
     }
   }
 });
 
-export const { addData, setOption } = chartSlice.actions;
+export const { addData, setOptions, switchYAxis } = chartSlice.actions;
 
 export default chartSlice.reducer;

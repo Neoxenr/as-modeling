@@ -17,7 +17,7 @@ import { addData } from '../../../../store/slices/chart-slice';
 import { useGetParamsQuery } from '../../../../services/model';
 
 // Types
-import { Parameter } from '../../../../types/chart/parameter';
+import { Parameter } from '../../../../types/parameter';
 
 // Components
 import ModelTags from '../ModelTags/ModelTags';
@@ -39,7 +39,7 @@ function ModelChart(): ReactElement {
   ) : (
     <Layout direction="column">
       <ModelTags tags={data?.map((param: Parameter) => param.description)} />
-      <Chart />
+      <Chart height={400} />
     </Layout>
   );
 }

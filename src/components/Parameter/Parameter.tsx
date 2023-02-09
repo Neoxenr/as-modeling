@@ -17,7 +17,7 @@ import { IconEyeClose } from '@consta/icons/IconEyeClose';
 import { AppDispatch } from '../../store';
 
 // Store slices
-import { setOption } from '../../store/slices/chart-slice';
+import { setOptions } from '../../store/slices/chart-slice';
 
 // SCSS
 import styles from './Parameter.module.scss';
@@ -36,7 +36,7 @@ function Parameter({ label, group }: ParameterProps): ReactElement {
     setIsVisible(!isVisible);
 
     dispatch(
-      setOption({
+      setOptions({
         option: ['legend', 'selected'],
         key: label,
         value: isVisible
@@ -46,7 +46,12 @@ function Parameter({ label, group }: ParameterProps): ReactElement {
 
   return (
     <Layout className={styles.parameter}>
-      <Tag mode="info" group={(group + 1) as any} label={label} />
+      <Tag
+        className={styles.tag}
+        mode="info"
+        group={(group + 1) as any}
+        label={label}
+      />
       <Button
         size="s"
         view="clear"

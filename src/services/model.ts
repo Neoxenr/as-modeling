@@ -2,7 +2,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 // Types
-import { Parameter } from '../types/chart/parameter';
+import { Parameter } from '../types/parameter';
 
 export const modelApi = createApi({
   reducerPath: 'modelApi',

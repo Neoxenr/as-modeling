@@ -10,7 +10,7 @@ import { Switch as SwitchConsta } from '@consta/uikit/Switch';
 import { AppDispatch } from '../../store';
 
 // Store slices
-import { setOption } from '../../store/slices/chart-slice';
+import { switchYAxis } from '../../store/slices/chart-slice';
 
 interface SwitchTagProps {
   label: string;
@@ -20,18 +20,12 @@ interface SwitchTagProps {
 function SwitchTag({ label, setTags }: SwitchTagProps): ReactElement {
   const dispatch: AppDispatch = useDispatch();
 
-  const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [isChecked, setIsChecked] = useState<boolean>(true);
 
   const handleOnChange = () => {
     setIsChecked(!isChecked);
 
-    dispatch(
-      setOption({
-        option: ['legend', 'selected'],
-        key: label,
-        value: !isChecked
-      })
-    );
+    dispatch(switchYAxis({ name: label, visible: isChecked }));
 
     if (!isChecked) {
       setTags((prevState: string[]) => [...prevState, label]);
