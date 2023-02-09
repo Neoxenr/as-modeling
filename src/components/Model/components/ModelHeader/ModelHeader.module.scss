@@ -1,11 +1,12 @@
 .header {
+  position: relative;
   padding: 20px;
   align-items: flex-start;
 
   .info {
-    row-gap: 20px;
+    row-gap: 10px;
 
-    .model {
+    .description {
       row-gap: 10px;
       margin-left: 10px;
 

@@ -1,12 +1,17 @@
-import React, { ReactElement, useRef, useState } from 'react';
+import React, { ReactElement, ReactNode, useRef, useState } from 'react';
 
 import { Button } from '@consta/uikit/Button';
-import { Text } from '@consta/uikit/Text';
 import { Card } from '@consta/uikit/Card';
 import { Popover as PopoverConsta } from '@consta/uikit/Popover';
+import { IconComponent } from '@consta/icons/Icon';
 
-function Popover(): ReactElement {
-  const anchorRef = useRef<HTMLButtonElement>(null);
+interface PopoverProps {
+  button?: ReactNode;
+  children?: ReactNode | ReactNode[];
+}
+
+function Popover({ button, children }: PopoverProps): ReactElement {
+  const anchorRef = useRef<HTMLDivElement>(null);
 
   const [isPopoverVisible, setIsPopoverVisible] = useState<boolean>(false);
 
@@ -14,21 +19,27 @@ function Popover(): ReactElement {
     setIsPopoverVisible(!isPopoverVisible);
   };
 
+  const handleClickOnOutside = () => {
+    setIsPopoverVisible(false);
+  };
+
   return (
     <>
-      <Button label="80%" onClick={handleClickOnAnchor} ref={anchorRef} />
-      {isPopoverVisible && (
-        <PopoverConsta
-          offset="xs"
-          direction="downStartLeft"
-          spareDirection="downStartLeft"
-          anchorRef={anchorRef}
-        >
-          <Card shadow form="square" verticalSpace="xs" horizontalSpace="xs">
-            <Text size="xs">Метрика качества модели</Text>
-          </Card>
-        </PopoverConsta>
-      )}
+      <div onClick={handleClickOnAnchor} ref={anchorRef}>
+        {button}
+      </div>
+      <PopoverConsta
+        hidden={!isPopoverVisible}
+        offset="xs"
+        direction="downStartLeft"
+        spareDirection="downStartLeft"
+        onClickOutside={handleClickOnOutside}
+        anchorRef={anchorRef}
+      >
+        <Card shadow form="square" verticalSpace="xs" horizontalSpace="xs">
+          {children}
+        </Card>
+      </PopoverConsta>
     </>
   );
 }

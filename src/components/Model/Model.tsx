@@ -1,8 +1,21 @@
+// React
 import React, { ReactElement } from 'react';
-import ModelInfo from '../ModelInfo/ModelInfo';
+
+import { Layout } from '@consta/uikit/Layout';
+
+// Components
+import ModelHeader from './components/ModelHeader/ModelHeader';
+import ModelInfo from './components/ModelInfo/ModelInfo';
 
 function Model(): ReactElement {
-  return <ModelInfo />;
+  return (
+    <Layout direction="column">
+      <ModelHeader />
+      <ModelInfo />
+      {/* Sider */}
+      {/* Footer */}
+    </Layout>
+  );
 }
 
 export default Model;

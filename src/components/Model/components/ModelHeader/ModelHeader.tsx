@@ -1,4 +1,5 @@
-import React, { ReactElement, useRef, useState } from 'react';
+// React
+import React, { ReactElement } from 'react';
 
 // Consta components
 import { Text } from '@consta/uikit/Text';
@@ -9,24 +10,26 @@ import { Layout } from '@consta/uikit/Layout';
 import { IconProcessing } from '@consta/icons/IconProcessing';
 
 // Components
-import Select from '../Select/Select';
-import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
-import Popover from '../Popover/Popover';
+import Select from '../../../Select/Select';
+import Breadcrumbs from '../../../Breadcrumbs/Breadcrumbs';
+import Popover from '../../../Popover/Popover';
 
 // SCSS
-import styles from './ModelInfo.module.scss';
+import styles from './ModelHeader.module.scss';
 
-function ModelInfo(): ReactElement {
+function ModelHeader(): ReactElement {
   return (
     <Layout className={styles.header}>
       <Layout flex={1} direction="column" className={styles.info}>
         <Breadcrumbs onlyIconRoot size="l" />
-        <Layout direction="column" className={styles.model}>
+        <Layout direction="column" className={styles.description}>
           <Layout className={styles.name}>
             <Text weight="bold" size="xl">
               Модель электродвигателя
             </Text>
-            <Popover />
+            <Popover button={<Button label="80%" />}>
+              <Text size="xs">Метрика качества модели</Text>
+            </Popover>
           </Layout>
           <Text view="secondary">01.01.2023-01.02.2023</Text>
         </Layout>
@@ -46,4 +49,4 @@ function ModelInfo(): ReactElement {
   );
 }
 
-export default ModelInfo;
+export default ModelHeader;
