@@ -1,3 +1,4 @@
+// React
 import React, { Dispatch, ReactElement, SetStateAction, useState } from 'react';
 
 // Redux
@@ -9,8 +10,11 @@ import { Switch as SwitchConsta } from '@consta/uikit/Switch';
 // Store
 import { AppDispatch } from '../../store';
 
+// Config chart names
+import { CHART_NAMES } from '../../config/chart/names';
+
 // Store slices
-import { switchYAxis } from '../../store/slices/chart-slice';
+import { switchChartYAxis } from '../../store/slices/chart-slice';
 
 interface SwitchTagProps {
   label: string;
@@ -25,7 +29,12 @@ function SwitchTag({ label, setTags }: SwitchTagProps): ReactElement {
   const handleOnChange = () => {
     setIsChecked(!isChecked);
 
-    dispatch(switchYAxis({ name: label, visible: isChecked }));
+    dispatch(
+      switchChartYAxis({
+        name: CHART_NAMES.MAIN_CHART,
+        visible: { name: label, isVisible: isChecked }
+      })
+    );
 
     if (!isChecked) {
       setTags((prevState: string[]) => [...prevState, label]);

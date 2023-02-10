@@ -16,8 +16,11 @@ import { IconEyeClose } from '@consta/icons/IconEyeClose';
 // Store
 import { AppDispatch } from '../../store';
 
+// Config
+import { CHART_NAMES } from '../../config/chart/names';
+
 // Store slices
-import { setOptions } from '../../store/slices/chart-slice';
+import { setChartOption } from '../../store/slices/chart-slice';
 
 // SCSS
 import styles from './Parameter.module.scss';
@@ -36,10 +39,13 @@ function Parameter({ label, group }: ParameterProps): ReactElement {
     setIsVisible(!isVisible);
 
     dispatch(
-      setOptions({
-        option: ['legend', 'selected'],
-        key: label,
-        value: isVisible
+      setChartOption({
+        name: CHART_NAMES.MAIN_CHART,
+        option: {
+          fields: ['legend', 'selected'],
+          key: label,
+          value: isVisible
+        }
       })
     );
   };

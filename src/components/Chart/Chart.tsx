@@ -1,3 +1,4 @@
+// React
 import React, { ReactElement } from 'react';
 
 // Redux
@@ -6,18 +7,21 @@ import { useSelector } from 'react-redux';
 // Echarts
 import ReactEcharts from 'echarts-for-react';
 
+// Types
+import { Options } from '../../types/chart/options';
+
 // Store
 import { RootState } from '../../store';
 
-// Types
-import { Options } from '../../types/options';
-
 interface ChartProps {
+  name: string;
   height: number;
 }
 
-function Chart({ height }: ChartProps): ReactElement {
-  const options: Options = useSelector((state: RootState) => state.chartConfig);
+function Chart({ name, height }: ChartProps): ReactElement {
+  const options: Options = useSelector(
+    (state: RootState) => state.chartsConfig[name]
+  );
 
   return (
     <ReactEcharts

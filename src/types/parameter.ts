@@ -1,4 +1,4 @@
-import { Point } from './point';
+import { Point } from './chart/point';
 
 export interface Parameter {
   description: string;

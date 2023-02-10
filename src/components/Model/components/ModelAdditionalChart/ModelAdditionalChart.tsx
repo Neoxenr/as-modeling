@@ -11,26 +11,30 @@ import { Layout } from '@consta/uikit/Layout';
 import { AppDispatch } from '../../../../store';
 
 // Store slices
-import { addData } from '../../../../store/slices/chart-slice';
+import { addDataToChart } from '../../../../store/slices/chart-slice';
 
 // Services
 import { useGetParamsQuery } from '../../../../services/model';
 
-// Types
-import { Parameter } from '../../../../types/parameter';
+// Config chart names
+import { CHART_NAMES } from '../../../../config/chart/names';
 
 // Components
-import ModelTags from '../ModelTags/ModelTags';
 import Chart from '../../../Chart/Chart';
 
-function ModelChart(): ReactElement {
+// SCSS
+import styles from './ModelAdditionalChart.module.scss';
+
+function ModelAdditionalChart(): ReactElement {
   const dispatch: AppDispatch = useDispatch();
 
   const { data, isLoading } = useGetParamsQuery();
 
   useEffect(() => {
     if (data) {
-      dispatch(addData(data));
+      dispatch(
+        addDataToChart({ name: CHART_NAMES.ADDITIONAL_CHART, data: [data[0]] })
+      );
     }
   }, [data]);
 
@@ -38,10 +42,10 @@ function ModelChart(): ReactElement {
     <div>Loading...</div>
   ) : (
     <Layout direction="column">
-      <ModelTags tags={data?.map((param: Parameter) => param.description)} />
-      <Chart height={400} />
+      <div>HEADER</div>
+      <Chart name={CHART_NAMES.ADDITIONAL_CHART} height={300} />
     </Layout>
   );
 }
 
-export default ModelChart;
+export default ModelAdditionalChart;

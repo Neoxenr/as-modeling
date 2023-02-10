@@ -46,7 +46,7 @@ function ModelTags({ tags }: ModelTagsProps): ReactElement {
       </Layout>
       <Popover
         button={
-          <Button onlyIcon size="m" iconLeft={IconAdd} view="secondary" />
+          <Button onlyIcon iconLeft={IconAdd} size="m" view="secondary" />
         }
       >
         <Layout className={styles.switches} direction="column">

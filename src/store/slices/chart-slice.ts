@@ -3,63 +3,48 @@
 // Redux
 import { createSlice } from '@reduxjs/toolkit';
 
-// Types
-import { Options, YAxis } from '../../types/options';
-import { Parameter } from '../../types/parameter';
-import { Point } from '../../types/point';
+// Chart config
+import { CHART_CONFIG } from '../../config/chart/chart';
 
-// Colors
-import { COLORS } from '../../config/colors';
+// Chart config colors
+import { COLORS } from '../../config/chart/colors';
+
+// Chart config names
+import { CHART_NAMES } from '../../config/chart/names';
 
 // Utilites
-import { getPropValues } from '../../utilities';
+import { getPropValues, copyObjectToKeys } from '../../utilities';
 
-const initialState: Options = {
-  color: COLORS,
-  tooltip: {
-    trigger: 'axis',
-    axisPointer: {
-      type: 'cross'
-    }
-  },
-  grid: {
-    right: 'left',
-    left: 'center',
-    show: true
-  },
-  legend: {
-    show: false,
-    selected: {}
-  },
-  xAxis: {
-    type: 'category',
-    axisTick: {
-      alignWithLabel: true
-    },
-    data: []
-  },
-  yAxis: [{ show: false, offset: 0 }],
-  series: []
-};
+// Types
+import { YAxis } from '../../types/chart/options';
+import { ChartState } from '../../types/chart/state';
+import { Parameter } from '../../types/parameter';
+import { Point } from '../../types/chart/point';
+
+const initialState: ChartState = copyObjectToKeys(
+  Object.keys(CHART_NAMES),
+  CHART_CONFIG
+);
 
 const chartSlice = createSlice({
-  name: 'chartConfig',
+  name: 'chartsConfig',
   initialState,
   reducers: {
-    addData: (state, action) => {
-      const { payload } = action;
+    addDataToChart: (state, action) => {
+      const { name, data } = action.payload;
 
-      const { grid, xAxis } = state;
+      const { grid, xAxis } = state[name];
 
-      grid.left = `${payload.length * 100}px`;
+      grid.left = `${data.length * 100}px`;
 
-      xAxis.data = payload[0].points.map((point: Point) => point.d);
+      xAxis.data = data[0].points.map((point: Point) => point.d);
 
-      state.yAxis = [
-        ...state.yAxis,
-        ...payload.map((param: Parameter, index: number) => ({
+      state[name].yAxis = [
+        ...state[name].yAxis,
+        ...data.map((param: Parameter, index: number) => ({
           type: 'value',
           name: param.description,
+          nameGap: 1000,
           position: 'left',
           alignTicks: true,
           offset: index * 100,
@@ -75,45 +60,47 @@ const chartSlice = createSlice({
         }))
       ];
 
-      state.series = payload.map((param: Parameter, index: number) => ({
+      state[name].series = data.map((param: Parameter, index: number) => ({
         name: param.description,
         type: 'line',
         yAxisIndex: index + 1,
         data: param.points.map((point) => point.v)
       }));
     },
-    setOptions: (state, action) => {
-      const { payload } = action;
+    setChartOption: (state, action) => {
+      const { name } = action.payload;
 
-      const optionValue = getPropValues(state, ...payload.option);
+      const { fields, key, value } = action.payload.option;
 
-      optionValue[payload.key] = payload.value;
+      const optionValue = getPropValues(state[name], ...fields);
+
+      optionValue[key] = value;
     },
-    switchYAxis: (state, action) => {
-      const { payload } = action;
+    switchChartYAxis: (state, action) => {
+      const { name, visible } = action.payload;
 
-      const { grid, yAxis } = state;
-      const { selected } = state.legend;
+      const { grid, yAxis, legend } = state[name];
 
-      const shift: number = payload.visible ? -100 : 100;
+      const gridShift: number = visible.isVisible ? -100 : 100;
 
-      const index: number = yAxis.findIndex(
-        (item: YAxis) => item.name === payload.name
+      const selectedYAxisIndex: number = yAxis.findIndex(
+        (item: YAxis) => item.name === visible.name
       );
 
-      grid.left = `${parseInt(grid.left, 10) + shift}px`;
+      grid.left = `${parseInt(grid.left, 10) + gridShift}px`;
 
-      yAxis[index].show = !payload.visible;
+      yAxis[selectedYAxisIndex].show = !visible.isVisible;
 
-      for (let i = index + 1; i < yAxis.length; i += 1) {
-        yAxis[i].offset += shift;
+      for (let i = selectedYAxisIndex + 1; i < yAxis.length; i += 1) {
+        yAxis[i].offset += gridShift;
       }
 
-      selected[payload.name] = !payload.visible;
+      legend.selected[visible.name] = !visible.isVisible;
     }
   }
 });
 
-export const { addData, setOptions, switchYAxis } = chartSlice.actions;
+export const { addDataToChart, setChartOption, switchChartYAxis } =
+  chartSlice.actions;
 
 export default chartSlice.reducer;
