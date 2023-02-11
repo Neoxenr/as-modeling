@@ -1,0 +1,37 @@
+@import '../../../../styles/colors';
+
+.chart {
+  .header {
+    padding: 7px 0;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid $chart-header-border-color;
+    border-bottom: 1px solid $chart-header-border-color;
+
+    .title {
+      margin-left: 30px;
+    }
+
+    .btnGroup {
+      column-gap: 30px;
+
+      .threshold {
+        column-gap: 20px;
+        align-items: center;
+        
+        .change {
+          align-items: center;
+          background-color: $button-bg-color;
+        }
+  
+        .btn {
+          // background-color: $button-bg-color;
+        }
+      }
+
+      .actions {
+        margin-right: 10px;
+      }
+    }
+  }
+}

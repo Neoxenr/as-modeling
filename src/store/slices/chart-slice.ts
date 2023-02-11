@@ -87,9 +87,9 @@ const chartSlice = createSlice({
         (item: YAxis) => item.name === visible.name
       );
 
-      grid.left = `${parseInt(grid.left, 10) + gridShift}px`;
-
       yAxis[selectedYAxisIndex].show = !visible.isVisible;
+
+      grid.left = `${parseInt(grid.left, 10) + gridShift}px`;
 
       for (let i = selectedYAxisIndex + 1; i < yAxis.length; i += 1) {
         yAxis[i].offset += gridShift;

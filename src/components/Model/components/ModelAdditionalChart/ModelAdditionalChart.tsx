@@ -6,6 +6,14 @@ import { useDispatch } from 'react-redux';
 
 // Consta components
 import { Layout } from '@consta/uikit/Layout';
+import { Text } from '@consta/uikit/Text';
+import { Button } from '@consta/uikit/Button';
+
+// Consta icons
+import { IconAdd } from '@consta/icons/IconAdd';
+import { IconRemove } from '@consta/icons/IconRemove';
+import { IconClose } from '@consta/icons/IconClose';
+import { IconExpand } from '@consta/icons/IconExpand';
 
 // Store
 import { AppDispatch } from '../../../../store';
@@ -41,8 +49,33 @@ function ModelAdditionalChart(): ReactElement {
   return isLoading ? (
     <div>Loading...</div>
   ) : (
-    <Layout direction="column">
-      <div>HEADER</div>
+    <Layout direction="column" className={styles.chart}>
+      <Layout className={styles.header}>
+        <Text className={styles.title} size="s" weight="semibold">
+          Аномальноя состояние
+        </Text>
+        <Layout className={styles.btnGroup}>
+          <Layout className={styles.threshold}>
+            <Text size="xs" view="secondary">
+              Порог нормы threshold:
+            </Text>
+            <Layout className={styles.change}>
+              <Button onlyIcon iconLeft={IconRemove} view="clear" />
+              <Text>0.550</Text>
+              <Button onlyIcon iconLeft={IconAdd} view="clear" />
+            </Layout>
+            <Button
+              className={styles.btn}
+              view="ghost"
+              label="Оптимизировать"
+            />
+          </Layout>
+          <Layout className={styles.actions}>
+            <Button onlyIcon iconLeft={IconExpand} view="clear" />
+            <Button onlyIcon iconLeft={IconClose} view="clear" />
+          </Layout>
+        </Layout>
+      </Layout>
       <Chart name={CHART_NAMES.ADDITIONAL_CHART} height={300} />
     </Layout>
   );
