@@ -1,6 +1,4 @@
-import { WorkType } from './work-type';
-
 export interface SelectItem {
-  label: WorkType;
+  label: string;
   id: number;
 }
