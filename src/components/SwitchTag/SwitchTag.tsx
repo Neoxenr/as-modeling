@@ -7,11 +7,11 @@ import { useDispatch } from 'react-redux';
 // Consta components
 import { Switch as SwitchConsta } from '@consta/uikit/Switch';
 
-// Store
-import { AppDispatch } from '../../store';
-
 // Config chart names
 import { CHART_NAMES } from '../../config/chart/names';
+
+// Store
+import { AppDispatch } from '../../store';
 
 // Store slices
 import { switchChartYAxis } from '../../store/slices/chart-slice';

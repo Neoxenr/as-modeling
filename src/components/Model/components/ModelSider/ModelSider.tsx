@@ -3,9 +3,16 @@ import React, { ReactElement, useState } from 'react';
 
 // Consta components
 import { Layout } from '@consta/uikit/Layout';
+import { Card } from '@consta/uikit/Card';
+import { Badge } from '@consta/uikit/Badge';
+import { Text } from '@consta/uikit/Text';
+import { Button } from '@consta/uikit/Button';
+
+// Consta icons
+import { IconClose } from '@consta/icons/IconClose';
 
 // Types
-import { Period } from '../../../../types/period';
+import { Period } from '../../../../types/chart/period';
 
 // Utilities
 import { convertPeriodToString } from '../../../../utilities';
@@ -22,12 +29,32 @@ function ModelSider(): ReactElement {
   return (
     <Layout className={styles.sider} direction="column">
       <ModelModal addItems={setPeriods} />
-      {periods.map((period: Period) => (
-        <div key={period.id}>
-          <div>{convertPeriodToString(period.date[0], period.date[1])}</div>
-          <div>{period.workType}</div>
-        </div>
-      ))}
+      <Layout className={styles.periods} direction="column">
+        {periods.map((period: Period) => (
+          <Card key={period.id} className={styles.period} shadow={false}>
+            <Badge
+              size="m"
+              minified
+              status={period.status}
+              label={period.label}
+            />
+            <Text className={styles.text} size="xs">
+              {convertPeriodToString(period.date[0], period.date[1])}
+            </Text>
+            <Button
+              onlyIcon
+              iconLeft={IconClose}
+              size="xs"
+              view="clear"
+              onClick={() =>
+                setPeriods(
+                  periods.filter((item: Period) => item.id !== period.id)
+                )
+              }
+            />
+          </Card>
+        ))}
+      </Layout>
     </Layout>
   );
 }

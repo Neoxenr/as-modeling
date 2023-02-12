@@ -1,8 +1,5 @@
 // React
-import React, { ReactElement, useEffect } from 'react';
-
-// Redux
-import { useDispatch } from 'react-redux';
+import React, { ReactElement } from 'react';
 
 // Consta components
 import { Layout } from '@consta/uikit/Layout';
@@ -14,12 +11,6 @@ import { IconClose } from '@consta/icons/IconClose';
 import { IconExpand } from '@consta/icons/IconExpand';
 import { IconInComparison } from '@consta/icons/IconInComparison';
 import { IconLineAndBarChart } from '@consta/icons/IconLineAndBarChart';
-
-// Store
-import { AppDispatch } from '../../../../store';
-
-// Store slices
-import { addDataToChart } from '../../../../store/slices/chart-slice';
 
 // Services
 import { useGetParamsQuery } from '../../../../services/model';
@@ -38,19 +29,9 @@ import { Parameter } from '../../../../types/chart/parameter';
 import styles from './ModelMainChart.module.scss';
 
 function ModelMainChart(): ReactElement {
-  const dispatch: AppDispatch = useDispatch();
+  const { data } = useGetParamsQuery();
 
-  const { data, isLoading } = useGetParamsQuery();
-
-  useEffect(() => {
-    if (data) {
-      dispatch(addDataToChart({ name: CHART_NAMES.MAIN_CHART, data }));
-    }
-  }, [data]);
-
-  return isLoading ? (
-    <div>Loading...</div>
-  ) : (
+  return (
     <Layout direction="column" className={styles.chart}>
       <Layout className={styles.header}>
         <Text className={styles.title} size="s" weight="semibold">

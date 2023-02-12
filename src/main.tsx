@@ -2,11 +2,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
-// Consta
-import { Theme, presetGpnDefault } from '@consta/uikit/Theme';
-
 // Redux
 import { Provider } from 'react-redux';
+
+// Consta
+import { Theme, presetGpnDefault } from '@consta/uikit/Theme';
 
 // Store
 import { store } from './store';

@@ -9,7 +9,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@consta/charts": "^0.7.1",
     "@consta/icons": "^0.1.1",
     "@consta/uikit": "^4.9.0",
     "@reduxjs/toolkit": "^1.9.2",

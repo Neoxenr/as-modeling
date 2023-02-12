@@ -13,11 +13,11 @@ import { Button } from '@consta/uikit/Button';
 import { IconEye } from '@consta/icons/IconEye';
 import { IconEyeClose } from '@consta/icons/IconEyeClose';
 
-// Store
-import { AppDispatch } from '../../store';
-
 // Config
 import { CHART_NAMES } from '../../config/chart/names';
+
+// Store
+import { AppDispatch } from '../../store';
 
 // Store slices
 import { setChartOption } from '../../store/slices/chart-slice';
@@ -53,8 +53,8 @@ function Parameter({ label, group }: ParameterProps): ReactElement {
   return (
     <Layout className={styles.parameter}>
       <Tag
-        className={styles.tag}
         mode="info"
+        className={styles.tag}
         group={(group + 1) as any}
         label={label}
       />

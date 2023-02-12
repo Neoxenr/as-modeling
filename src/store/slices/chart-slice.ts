@@ -64,17 +64,8 @@ const chartSlice = createSlice({
         name: param.description,
         type: 'line',
         yAxisIndex: index + 1,
-        data: param.points.map((point) => point.v)
+        data: param.points.map((point: Point) => point.v)
       }));
-    },
-    setChartOption: (state, action) => {
-      const { name } = action.payload;
-
-      const { fields, key, value } = action.payload.option;
-
-      const optionValue = getPropValues(state[name], ...fields);
-
-      optionValue[key] = value;
     },
     switchChartYAxis: (state, action) => {
       const { name, visible } = action.payload;
@@ -96,6 +87,15 @@ const chartSlice = createSlice({
       }
 
       legend.selected[visible.name] = !visible.isVisible;
+    },
+    setChartOption: (state, action) => {
+      const { name } = action.payload;
+
+      const { fields, key, value } = action.payload.option;
+
+      const optionValue = getPropValues(state[name], ...fields);
+
+      optionValue[key] = value;
     }
   }
 });

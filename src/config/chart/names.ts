@@ -1,3 +1,4 @@
+// Types
 import { ChartNames } from '../../types/chart/names';
 
 export const CHART_NAMES: ChartNames = {

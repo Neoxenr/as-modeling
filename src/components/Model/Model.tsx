@@ -1,31 +1,65 @@
 // React
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect } from 'react';
+
+// Redux
+import { useDispatch } from 'react-redux';
 
 // Consta components
 import { Layout } from '@consta/uikit/Layout';
+import { ProgressSpin } from '@consta/uikit/ProgressSpin';
+
+// Config names
+import { CHART_NAMES } from '../../config/chart/names';
+
+// Store
+import { AppDispatch } from '../../store';
+
+// Store slices
+import { addDataToChart } from '../../store/slices/chart-slice';
+
+// Services
+import { useGetParamsQuery } from '../../services/model';
 
 // Components
 import ModelHeader from './components/ModelHeader/ModelHeader';
 import ModelMainChart from './components/ModelMainChart/ModelMainChart';
 import ModelAdditionalChart from './components/ModelAdditionalChart/ModelAdditionalChart';
 import ModelSider from './components/ModelSider/ModelSider';
+import ModelFooter from './components/ModelFooter/ModelFooter';
 
 // SCSS
 import styles from './Model.module.scss';
 
 function Model(): ReactElement {
-  return (
+  const dispatch: AppDispatch = useDispatch();
+
+  const { data, isLoading } = useGetParamsQuery();
+
+  useEffect(() => {
+    if (data) {
+      dispatch(addDataToChart({ name: CHART_NAMES.MAIN_CHART, data }));
+
+      dispatch(
+        addDataToChart({ name: CHART_NAMES.ADDITIONAL_CHART, data: [data[0]] })
+      );
+    }
+  }, [data]);
+
+  return isLoading ? (
+    <ProgressSpin className={styles.loading} size="2xl" />
+  ) : (
     <Layout direction="column">
       <ModelHeader />
       <Layout>
-        <Layout flex={5} className={styles.charts} direction="column">
+        <Layout flex={4} className={styles.charts} direction="column">
           <ModelMainChart />
           <ModelAdditionalChart />
         </Layout>
-        <Layout flex={1}>
+        <Layout className={styles.sider} flex={1}>
           <ModelSider />
         </Layout>
       </Layout>
+      <ModelFooter />
     </Layout>
   );
 }

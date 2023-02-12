@@ -5,22 +5,18 @@ import React, { Dispatch, ReactElement, SetStateAction, useState } from 'react';
 import { Layout } from '@consta/uikit/Layout';
 import { Button } from '@consta/uikit/Button';
 import { Modal } from '@consta/uikit/Modal';
-import { DatePicker } from '@consta/uikit/DatePicker';
 import { Select } from '@consta/uikit/Select';
+import { DatePicker } from '@consta/uikit/DatePicker';
+
+// Config
+import { WORK_KINDS } from '../../../../config/work';
 
 // Types
-import { Period } from '../../../../types/period';
-import { SelectItem } from '../../../../types/select-item';
+import { Period } from '../../../../types/chart/period';
+import { WorkKind } from '../../../../types/work';
 
 // SCSS
 import styles from './ModelModal.module.scss';
-
-const items: SelectItem[] = [
-  { id: 1, label: 'Нормальная работа' },
-  { id: 2, label: 'Аномальная работа' },
-  { id: 3, label: 'Отказы' },
-  { id: 4, label: 'Офлайн' }
-];
 
 interface ModelModalProps {
   addItems: Dispatch<SetStateAction<Period[]>>;
@@ -31,14 +27,19 @@ function ModelModal({ addItems }: ModelModalProps): ReactElement {
 
   const [date, setDate] = useState<[Date?, Date?] | null>(null);
 
-  const [workType, setWorkType] = useState<SelectItem | null>(items[0]);
+  const [workKind, setWorkKind] = useState<WorkKind | null>(WORK_KINDS[0]);
 
   const handleOnClick = () => {
     const uuid: string = crypto.randomUUID();
 
     addItems((prevState: Period[]) => [
       ...prevState,
-      { id: uuid, date, workType: workType?.label } as Period
+      {
+        id: uuid,
+        date,
+        status: workKind?.status,
+        label: workKind?.label
+      } as Period
     ]);
 
     setIsModalOpen(false);
@@ -71,9 +72,9 @@ function ModelModal({ addItems }: ModelModalProps): ReactElement {
           />
           <Select
             label="Тип работы"
-            items={items}
-            value={workType}
-            onChange={({ value }) => setWorkType(value)}
+            items={WORK_KINDS}
+            value={workKind}
+            onChange={({ value }) => setWorkKind(value)}
           />
           <Button
             disabled={buttonIsDisabled}

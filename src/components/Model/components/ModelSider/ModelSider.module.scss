@@ -2,7 +2,26 @@
 
 .sider {
   padding: 8px;
+  overflow-y: auto;
+  max-height: 868px;
   border-top: 1px solid $sider-border-color;
   border-bottom: 1px solid $sider-border-color;
   border-right: 1px solid $sider-border-color;
+
+  .periods {
+    row-gap: 10px;
+
+    .period {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: $card-bg-color;
+      column-gap: 5px;
+      padding: 7px;
+
+      .text {
+        margin-top: 2px;
+      }
+    }
+  }
 }
