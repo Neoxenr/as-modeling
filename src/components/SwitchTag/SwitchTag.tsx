@@ -18,10 +18,10 @@ import { switchChartYAxis } from '../../store/slices/chart-slice';
 
 interface SwitchTagProps {
   label: string;
-  setTags: Dispatch<SetStateAction<string[]>>;
+  addItems: Dispatch<SetStateAction<string[]>>;
 }
 
-function SwitchTag({ label, setTags }: SwitchTagProps): ReactElement {
+function SwitchTag({ label, addItems }: SwitchTagProps): ReactElement {
   const dispatch: AppDispatch = useDispatch();
 
   const [isChecked, setIsChecked] = useState<boolean>(true);
@@ -37,9 +37,9 @@ function SwitchTag({ label, setTags }: SwitchTagProps): ReactElement {
     );
 
     if (!isChecked) {
-      setTags((prevState: string[]) => [...prevState, label]);
+      addItems((prevState: string[]) => [...prevState, label]);
     } else {
-      setTags((prevState: string[]) =>
+      addItems((prevState: string[]) =>
         prevState.filter((item) => item !== label)
       );
     }

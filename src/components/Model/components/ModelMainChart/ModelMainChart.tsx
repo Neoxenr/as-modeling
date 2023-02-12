@@ -32,7 +32,7 @@ import ModelTags from '../ModelTags/ModelTags';
 import Chart from '../../../Chart/Chart';
 
 // Types
-import { Parameter } from '../../../../types/parameter';
+import { Parameter } from '../../../../types/chart/parameter';
 
 // SCSS
 import styles from './ModelMainChart.module.scss';
@@ -57,14 +57,14 @@ function ModelMainChart(): ReactElement {
           Тестовые данные
         </Text>
         <Layout className={styles.btnGroup}>
-          <Layout className={styles.charts}>
+          <div className={styles.charts}>
             <Button onlyIcon iconLeft={IconLineAndBarChart} view="secondary" />
             <Button onlyIcon iconLeft={IconInComparison} />
-          </Layout>
-          <Layout className={styles.actions}>
+          </div>
+          <div className={styles.actions}>
             <Button onlyIcon iconLeft={IconExpand} view="clear" />
             <Button onlyIcon iconLeft={IconClose} view="clear" />
-          </Layout>
+          </div>
         </Layout>
       </Layout>
       <ModelTags tags={data?.map((param: Parameter) => param.description)} />

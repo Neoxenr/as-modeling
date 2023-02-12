@@ -9,7 +9,7 @@ import { Layout } from '@consta/uikit/Layout';
 import { IconAdd } from '@consta/icons/IconAdd';
 
 // Types
-import { Groups } from '../../../../types/group';
+import { Groups } from '../../../../types/chart/group';
 
 // Components
 import Popover from '../../../Popover/Popover';
@@ -39,11 +39,11 @@ function ModelTags({ tags }: ModelTagsProps): ReactElement {
 
   return (
     <Layout className={styles.tags}>
-      <Layout className={styles.params}>
+      <div className={styles.params}>
         {items.map((item: string) => (
           <Parameter key={item} label={item} group={groups?.[item] ?? 1} />
         ))}
-      </Layout>
+      </div>
       <Popover
         button={
           <Button onlyIcon iconLeft={IconAdd} size="m" view="secondary" />
@@ -51,7 +51,7 @@ function ModelTags({ tags }: ModelTagsProps): ReactElement {
       >
         <Layout className={styles.switches} direction="column">
           {tags?.map((tag: string) => (
-            <SwitchTag key={tag} label={tag} setTags={setItems} />
+            <SwitchTag key={tag} label={tag} addItems={setItems} />
           ))}
         </Layout>
       </Popover>

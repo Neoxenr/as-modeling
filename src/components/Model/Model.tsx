@@ -8,6 +8,7 @@ import { Layout } from '@consta/uikit/Layout';
 import ModelHeader from './components/ModelHeader/ModelHeader';
 import ModelMainChart from './components/ModelMainChart/ModelMainChart';
 import ModelAdditionalChart from './components/ModelAdditionalChart/ModelAdditionalChart';
+import ModelSider from './components/ModelSider/ModelSider';
 
 // SCSS
 import styles from './Model.module.scss';
@@ -16,9 +17,14 @@ function Model(): ReactElement {
   return (
     <Layout direction="column">
       <ModelHeader />
-      <Layout className={styles.charts} direction="column">
-        <ModelMainChart />
-        <ModelAdditionalChart />
+      <Layout>
+        <Layout flex={5} className={styles.charts} direction="column">
+          <ModelMainChart />
+          <ModelAdditionalChart />
+        </Layout>
+        <Layout flex={1}>
+          <ModelSider />
+        </Layout>
       </Layout>
     </Layout>
   );

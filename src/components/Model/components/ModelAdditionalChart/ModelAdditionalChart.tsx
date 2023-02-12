@@ -54,27 +54,27 @@ function ModelAdditionalChart(): ReactElement {
         <Text className={styles.title} size="s" weight="semibold">
           Аномальноя состояние
         </Text>
-        <Layout className={styles.btnGroup}>
+        <div className={styles.btnGroup}>
           <Layout className={styles.threshold}>
             <Text size="xs" view="secondary">
               Порог нормы threshold:
             </Text>
-            <Layout className={styles.change}>
+            <div className={styles.change}>
               <Button onlyIcon iconLeft={IconRemove} view="clear" />
               <Text>0.550</Text>
               <Button onlyIcon iconLeft={IconAdd} view="clear" />
-            </Layout>
+            </div>
             <Button
               className={styles.btn}
               view="ghost"
               label="Оптимизировать"
             />
           </Layout>
-          <Layout className={styles.actions}>
+          <div className={styles.actions}>
             <Button onlyIcon iconLeft={IconExpand} view="clear" />
             <Button onlyIcon iconLeft={IconClose} view="clear" />
-          </Layout>
-        </Layout>
+          </div>
+        </div>
       </Layout>
       <Chart name={CHART_NAMES.ADDITIONAL_CHART} height={300} />
     </Layout>

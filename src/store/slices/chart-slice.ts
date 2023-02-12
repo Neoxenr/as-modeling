@@ -18,7 +18,7 @@ import { getPropValues, copyObjectToKeys } from '../../utilities';
 // Types
 import { YAxis } from '../../types/chart/options';
 import { ChartState } from '../../types/chart/state';
-import { Parameter } from '../../types/parameter';
+import { Parameter } from '../../types/chart/parameter';
 import { Point } from '../../types/chart/point';
 
 const initialState: ChartState = copyObjectToKeys(

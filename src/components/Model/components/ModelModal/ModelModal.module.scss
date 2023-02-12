@@ -1,0 +1,13 @@
+.btn {
+  margin-bottom: 20px;
+}
+
+.modal {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+
+  .content {
+    row-gap: 20px;
+  }
+}

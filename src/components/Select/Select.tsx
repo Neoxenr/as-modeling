@@ -2,32 +2,15 @@ import React, { ReactElement, useState } from 'react';
 
 import { Select as SelectConsta } from '@consta/uikit/Select';
 
-type Item = {
-  label: string;
-  id: number;
-};
+import { SelectItem } from '../../types/select-item';
 
 type SelectProps = {
   label: string;
+  items: SelectItem[];
 };
 
-const items: Item[] = [
-  {
-    label: 'AE',
-    id: 1
-  },
-  {
-    label: 'AB',
-    id: 2
-  },
-  {
-    label: 'MG',
-    id: 3
-  }
-];
-
-function Select({ label }: SelectProps): ReactElement {
-  const [item, setItem] = useState<Item | null>(items[0]);
+function Select({ label, items }: SelectProps): ReactElement {
+  const [item, setItem] = useState<SelectItem | null>(items[0]);
 
   return (
     <SelectConsta

@@ -13,14 +13,17 @@
     }
 
     .btnGroup {
+      justify-content: flex-end;
       margin-right: 10px;
       column-gap: 20px;
 
       .charts {
+        display: flex;
         column-gap: 5px;
       }
 
       .actions {
+        display: flex;
         column-gap: 5px;
       }
     }

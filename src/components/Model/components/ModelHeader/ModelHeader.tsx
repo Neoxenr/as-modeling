@@ -17,6 +17,12 @@ import Popover from '../../../Popover/Popover';
 // SCSS
 import styles from './ModelHeader.module.scss';
 
+const items = [
+  { id: 1, label: 'AE' },
+  { id: 2, label: 'AB' },
+  { id: 3, label: 'MG' }
+];
+
 function ModelHeader(): ReactElement {
   return (
     <Layout className={styles.header}>
@@ -37,7 +43,7 @@ function ModelHeader(): ReactElement {
       <Layout flex={1} className={styles.btnGroup}>
         <Layout className={styles.settings}>
           <Button view="secondary" iconLeft={IconProcessing} onlyIcon />
-          <Select label="Алгоритм" />
+          <Select label="Алгоритм" items={items} />
         </Layout>
         <Layout className={styles.actions}>
           <Button view="secondary" label="Добавить разметку" />

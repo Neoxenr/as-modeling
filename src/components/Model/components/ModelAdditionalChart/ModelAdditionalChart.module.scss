@@ -13,6 +13,7 @@
     }
 
     .btnGroup {
+      display: flex;
       column-gap: 30px;
 
       .threshold {
@@ -20,12 +21,9 @@
         align-items: center;
         
         .change {
+          display: flex;
           align-items: center;
           background-color: $button-bg-color;
-        }
-  
-        .btn {
-          // background-color: $button-bg-color;
         }
       }
 
