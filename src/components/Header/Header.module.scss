@@ -1,0 +1,18 @@
+@import '../../styles/colors';
+
+.header {
+  padding: 20px 10px 20px 30px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $header-bg-color;
+
+  .info {
+    display: flex;
+    column-gap: 20px;
+    align-items: center;
+
+    .username {
+      margin-top: 4px;
+    }
+  }
+}

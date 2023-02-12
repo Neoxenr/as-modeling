@@ -1,0 +1,46 @@
+{
+  "name": "as-modeling",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --open",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@consta/charts": "^0.7.1",
+    "@consta/icons": "^0.1.1",
+    "@consta/uikit": "^4.9.0",
+    "@reduxjs/toolkit": "^1.9.2",
+    "echarts": "^5.4.1",
+    "echarts-for-react": "^3.0.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.0.5"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.17",
+    "@types/react-dom": "^18.0.6",
+    "@types/react-redux": "^7.1.25",
+    "@typescript-eslint/eslint-plugin": "^4.18.0",
+    "@typescript-eslint/parser": "^4.18.0",
+    "@vitejs/plugin-react": "^2.1.0",
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb": "18.2.1",
+    "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "prettier": "^2.7.1",
+    "sass": "^1.56.1",
+    "typescript": "4.9.5",
+    "vite": "^3.1.0",
+    "vite-plugin-checker": "^0.5.1",
+    "vite-plugin-eslint": "^1.8.1",
+    "vite-tsconfig-paths": "^3.5.2"
+  }
+}
