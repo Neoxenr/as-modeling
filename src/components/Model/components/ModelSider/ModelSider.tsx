@@ -1,6 +1,9 @@
 // React
 import React, { ReactElement, useState } from 'react';
 
+// Redux
+import { useDispatch } from 'react-redux';
+
 // Consta components
 import { Layout } from '@consta/uikit/Layout';
 import { Card } from '@consta/uikit/Card';
@@ -10,6 +13,15 @@ import { Button } from '@consta/uikit/Button';
 
 // Consta icons
 import { IconClose } from '@consta/icons/IconClose';
+
+// Config chart names
+import { CHART_NAMES } from '../../../../config/chart/chart-names';
+
+// Store
+import { AppDispatch } from '../../../../store';
+
+// Store slices
+import { removeAreaFromCharts } from '../../../../store/slices/chart-slice';
 
 // Types
 import { Period } from '../../../../types/chart/period';
@@ -24,6 +36,8 @@ import ModelModal from '../ModelModal/ModelModal';
 import styles from './ModelSider.module.scss';
 
 function ModelSider(): ReactElement {
+  const dispatch: AppDispatch = useDispatch();
+
   const [periods, setPeriods] = useState<Period[]>([]);
 
   return (
@@ -46,11 +60,24 @@ function ModelSider(): ReactElement {
               iconLeft={IconClose}
               size="xs"
               view="clear"
-              onClick={() =>
+              onClick={() => {
                 setPeriods(
                   periods.filter((item: Period) => item.id !== period.id)
-                )
-              }
+                );
+
+                dispatch(
+                  removeAreaFromCharts({
+                    names: [
+                      CHART_NAMES.MAIN_CHART,
+                      CHART_NAMES.ADDITIONAL_CHART
+                    ],
+                    data: {
+                      id: period.id,
+                      areaIndex: period.areaIndex
+                    }
+                  })
+                );
+              }}
             />
           </Card>
         ))}

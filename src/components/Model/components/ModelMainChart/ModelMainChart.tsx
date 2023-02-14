@@ -16,7 +16,7 @@ import { IconLineAndBarChart } from '@consta/icons/IconLineAndBarChart';
 import { useGetParamsQuery } from '../../../../services/model';
 
 // Config chart names
-import { CHART_NAMES } from '../../../../config/chart/names';
+import { CHART_NAMES } from '../../../../config/chart/chart-names';
 
 // Components
 import ModelTags from '../ModelTags/ModelTags';

@@ -26,7 +26,7 @@ function Chart({ name, height }: ChartProps): ReactElement {
   return (
     <ReactEcharts
       style={{ height: `${height}px` }}
-      opts={{ renderer: 'svg', locale: 'EN' }}
+      opts={{ renderer: 'svg' }}
       option={options}
     />
   );

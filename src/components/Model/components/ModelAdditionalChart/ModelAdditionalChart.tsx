@@ -13,7 +13,7 @@ import { IconClose } from '@consta/icons/IconClose';
 import { IconExpand } from '@consta/icons/IconExpand';
 
 // Config chart names
-import { CHART_NAMES } from '../../../../config/chart/names';
+import { CHART_NAMES } from '../../../../config/chart/chart-names';
 
 // Components
 import Chart from '../../../Chart/Chart';

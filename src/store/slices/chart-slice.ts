@@ -4,26 +4,26 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 // Chart config
-import { CHART_CONFIG } from '../../config/chart/chart';
+import { CHART_OPTIONS } from '../../config/chart/chart-options';
 
 // Chart config colors
-import { COLORS } from '../../config/chart/colors';
+import { LINE_COLORS } from '../../config/chart/line-colors';
 
 // Chart config names
-import { CHART_NAMES } from '../../config/chart/names';
+import { CHART_NAMES } from '../../config/chart/chart-names';
 
 // Utilites
 import { getPropValues, copyObjectToKeys } from '../../utilities';
 
 // Types
-import { YAxis } from '../../types/chart/options';
+import { YAxis } from '../../types/options/y-axis';
 import { ChartState } from '../../types/chart/state';
 import { Parameter } from '../../types/chart/parameter';
 import { Point } from '../../types/chart/point';
 
 const initialState: ChartState = copyObjectToKeys(
   Object.keys(CHART_NAMES),
-  CHART_CONFIG
+  CHART_OPTIONS
 );
 
 const chartSlice = createSlice({
@@ -33,14 +33,11 @@ const chartSlice = createSlice({
     addDataToChart: (state, action) => {
       const { name, data } = action.payload;
 
-      const { grid, xAxis } = state[name];
+      const { grid, series, yAxis } = state[name];
 
       grid.left = `${data.length * 100}px`;
 
-      xAxis.data = data[0].points.map((point: Point) => point.d);
-
-      state[name].yAxis = [
-        ...state[name].yAxis,
+      yAxis.push(
         ...data.map((param: Parameter, index: number) => ({
           type: 'value',
           name: param.description,
@@ -51,26 +48,78 @@ const chartSlice = createSlice({
           axisLine: {
             show: true,
             lineStyle: {
-              color: COLORS[index]
+              color: LINE_COLORS[index]
             }
           },
           axisLabel: {
             formatter: `{value} ${param.unit}`
           }
         }))
-      ];
+      );
 
-      state[name].series = data.map((param: Parameter, index: number) => ({
-        name: param.description,
-        type: 'line',
-        yAxisIndex: index + 1,
-        data: param.points.map((point: Point) => point.v)
-      }));
+      series.unshift(
+        ...data.map((param: Parameter, index: number) => ({
+          name: param.description,
+          type: 'line',
+          yAxisIndex: index + 1,
+          data: param.points.map((point: Point) => [point.d, point.v])
+        }))
+      );
+    },
+    addAreaToCharts: (state, action) => {
+      const { names, data } = action.payload;
+
+      const { id, areaIndex, period } = data;
+
+      names.forEach((name: string) => {
+        const { series } = state[name];
+
+        const { markArea, markLine } = series[series.length - areaIndex - 1];
+
+        markArea.data.push([
+          { id, xAxis: period[0] },
+          { id, xAxis: period[1] }
+        ]);
+
+        markLine.data.push({ id, xAxis: period[0] }, { id, xAxis: period[1] });
+      });
+    },
+    removeAreaFromCharts: (state, action) => {
+      const { names, data } = action.payload;
+
+      const { id, areaIndex } = data;
+
+      names.forEach((name: string) => {
+        const { series } = state[name];
+
+        const { markArea, markLine } = series[series.length - areaIndex - 1];
+
+        markArea.data = markArea.data.filter((item) => item[0].id !== id);
+
+        markLine.data = markLine.data.filter((item) => item.id !== id);
+      });
+    },
+    switchChartsArea: (state, action) => {
+      const { names, data } = action.payload;
+
+      const { areaIndex, isVisible } = data;
+
+      const opacity = isVisible ? 0 : 0.99;
+
+      names.forEach((name: string) => {
+        const { series } = state[name];
+
+        const { markArea, markLine } = series[series.length - areaIndex - 1];
+
+        markArea.itemStyle.opacity = opacity;
+
+        markLine.lineStyle.opacity = opacity;
+      });
     },
     switchChartYAxis: (state, action) => {
       const { name, visible } = action.payload;
 
-      const { grid, yAxis, legend } = state[name];
+      const { grid, legend, yAxis } = state[name];
 
       const gridShift: number = visible.isVisible ? -100 : 100;
 
@@ -100,7 +149,13 @@ const chartSlice = createSlice({
   }
 });
 
-export const { addDataToChart, setChartOption, switchChartYAxis } =
-  chartSlice.actions;
+export const {
+  addDataToChart,
+  addAreaToCharts,
+  removeAreaFromCharts,
+  switchChartsArea,
+  switchChartYAxis,
+  setChartOption
+} = chartSlice.actions;
 
 export default chartSlice.reducer;

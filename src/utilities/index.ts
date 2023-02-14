@@ -5,7 +5,23 @@ export function getPropValues(obj: any, ...keys: any): any {
 }
 
 export function copyObjectToKeys(keys: string[], obj: any): any {
-  return keys.reduce((currentObj, key) => ({ ...currentObj, [key]: obj }), {});
+  return keys.reduce(
+    (currentObj, key) => ({
+      ...currentObj,
+      [key]: JSON.parse(JSON.stringify(obj))
+    }),
+    {}
+  );
+}
+
+export function convertArrayToObject(arr: any[]): any {
+  return arr.reduce(
+    (currentObj, value, index) => ({
+      ...currentObj,
+      [value]: index
+    }),
+    {}
+  );
 }
 
 export function convertDateToString(date: Date): string {

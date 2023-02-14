@@ -9,7 +9,7 @@ import { Layout } from '@consta/uikit/Layout';
 import { ProgressSpin } from '@consta/uikit/ProgressSpin';
 
 // Config names
-import { CHART_NAMES } from '../../config/chart/names';
+import { CHART_NAMES } from '../../config/chart/chart-names';
 
 // Store
 import { AppDispatch } from '../../store';
