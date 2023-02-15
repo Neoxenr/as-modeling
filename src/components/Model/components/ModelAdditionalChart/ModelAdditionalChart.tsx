@@ -46,7 +46,11 @@ function ModelAdditionalChart(): ReactElement {
           </div>
         </div>
       </Layout>
-      <Chart name={CHART_NAMES.ADDITIONAL_CHART} height={300} />
+      <Chart
+        className={styles.echart}
+        name={CHART_NAMES.ADDITIONAL_CHART}
+        height={300}
+      />
     </Layout>
   );
 }

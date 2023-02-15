@@ -1,5 +1,6 @@
 export interface Grid {
   right: string;
   left: string;
-  show: boolean;
+  top: number;
+  bottom: number;
 }

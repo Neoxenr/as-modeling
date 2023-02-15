@@ -16,7 +16,7 @@ import { IconAdd } from '@consta/icons/IconAdd';
 import { AppDispatch } from '../../../../store';
 
 // Store slices
-import { setChartOption } from '../../../../store/slices/chart-slice';
+import { hideChartYAxis } from '../../../../store/slices/chart-slice';
 
 // Config chart names
 import { CHART_NAMES } from '../../../../config/chart/chart-names';
@@ -29,7 +29,7 @@ import { Groups } from '../../../../types/chart/group';
 
 // Components
 import Popover from '../../../Popover/Popover';
-import SwitchTag from '../../../SwitchTag/SwitchTag';
+import Switch from '../../../Switch/Switch';
 import Visible from '../../../Visible/Visible';
 
 // SCSS
@@ -57,32 +57,33 @@ function ModelTags({ tags }: ModelTagsProps): ReactElement {
 
   return (
     <Layout className={styles.tags}>
-      <div className={styles.params}>
-        {items.map((item: string) => (
-          <Visible
-            key={item}
-            callback={(isVisible: boolean) =>
-              dispatch(
-                setChartOption({
-                  name: CHART_NAMES.MAIN_CHART,
-                  option: {
-                    fields: ['legend', 'selected'],
-                    key: item,
-                    value: isVisible
-                  }
-                })
-              )
-            }
-          >
-            <Tag
-              mode="info"
-              className={styles.param}
-              group={(groups[item] + 1) as any}
-              label={item}
-            />
-          </Visible>
-        ))}
-      </div>
+      {items.length > 0 && (
+        <div className={styles.params}>
+          {items.map((item: string) => (
+            <Visible
+              key={item}
+              callback={(isVisible: boolean) =>
+                dispatch(
+                  hideChartYAxis({
+                    name: CHART_NAMES.MAIN_CHART,
+                    data: {
+                      axisName: item,
+                      isVisible
+                    }
+                  })
+                )
+              }
+            >
+              <Tag
+                mode="info"
+                className={styles.param}
+                group={(groups[item] + 1) as any}
+                label={item}
+              />
+            </Visible>
+          ))}
+        </div>
+      )}
       <Popover
         button={
           <Button onlyIcon iconLeft={IconAdd} size="m" view="secondary" />
@@ -90,7 +91,7 @@ function ModelTags({ tags }: ModelTagsProps): ReactElement {
       >
         <Layout className={styles.switches} direction="column">
           {tags?.map((tag: string) => (
-            <SwitchTag key={tag} label={tag} addItems={setItems} />
+            <Switch key={tag} label={tag} addItems={setItems} />
           ))}
         </Layout>
       </Popover>

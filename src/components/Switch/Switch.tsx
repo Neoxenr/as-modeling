@@ -16,12 +16,12 @@ import { AppDispatch } from '../../store';
 // Store slices
 import { switchChartYAxis } from '../../store/slices/chart-slice';
 
-interface SwitchTagProps {
+interface SwitchProps {
   label: string;
   addItems: Dispatch<SetStateAction<string[]>>;
 }
 
-function SwitchTag({ label, addItems }: SwitchTagProps): ReactElement {
+function Switch({ label, addItems }: SwitchProps): ReactElement {
   const dispatch: AppDispatch = useDispatch();
 
   const [isChecked, setIsChecked] = useState<boolean>(true);
@@ -32,7 +32,7 @@ function SwitchTag({ label, addItems }: SwitchTagProps): ReactElement {
     dispatch(
       switchChartYAxis({
         name: CHART_NAMES.MAIN_CHART,
-        visible: { name: label, isVisible: isChecked }
+        data: { yAxisName: label, isVisible: isChecked }
       })
     );
 
@@ -50,4 +50,4 @@ function SwitchTag({ label, addItems }: SwitchTagProps): ReactElement {
   );
 }
 
-export default SwitchTag;
+export default Switch;

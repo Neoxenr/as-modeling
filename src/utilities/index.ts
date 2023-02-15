@@ -8,7 +8,7 @@ export function copyObjectToKeys(keys: string[], obj: any): any {
   return keys.reduce(
     (currentObj, key) => ({
       ...currentObj,
-      [key]: JSON.parse(JSON.stringify(obj))
+      [key]: { ...obj }
     }),
     {}
   );

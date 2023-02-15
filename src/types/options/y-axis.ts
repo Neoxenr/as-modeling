@@ -13,6 +13,6 @@ export interface YAxis {
     };
   };
   axisLabel?: {
-    formatter: string;
+    formatter: (value: number | string) => string | string;
   };
 }

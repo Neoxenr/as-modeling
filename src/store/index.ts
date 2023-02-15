@@ -11,10 +11,12 @@ import chartSlice from './slices/chart-slice';
 export const store = configureStore({
   reducer: {
     [modelApi.reducerPath]: modelApi.reducer,
-    chartsConfig: chartSlice
+    charts: chartSlice
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(modelApi.middleware)
+    getDefaultMiddleware({ serializableCheck: false }).concat(
+      modelApi.middleware
+    )
 });
 
 setupListeners(store.dispatch);

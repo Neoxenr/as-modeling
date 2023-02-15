@@ -15,6 +15,7 @@
     .btnGroup {
       display: flex;
       column-gap: 30px;
+      margin-right: 20px;
 
       .threshold {
         column-gap: 20px;
@@ -28,10 +29,10 @@
           background-color: $button-bg-color;
         }
       }
-
-      .actions {
-        margin-right: 10px;
-      }
     }
+  }
+
+  .echart {
+    margin-left: 20px;
   }
 }

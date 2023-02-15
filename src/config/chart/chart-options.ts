@@ -10,13 +10,26 @@ export const CHART_OPTIONS: Options = {
   tooltip: {
     trigger: 'axis',
     axisPointer: {
-      type: 'cross'
-    }
+      type: 'cross',
+      label: {
+        formatter: (params: any) => {
+          const { value } = params;
+
+          if (typeof value === 'number') {
+            return value.toFixed(2);
+          }
+
+          return value;
+        }
+      }
+    },
+    valueFormatter: (value: number) => value.toFixed(2)
   },
   grid: {
-    right: 'left',
-    left: 'center',
-    show: true
+    top: 30,
+    bottom: 60,
+    right: '30',
+    left: '30'
   },
   legend: {
     show: false,
@@ -27,6 +40,9 @@ export const CHART_OPTIONS: Options = {
     type: 'category',
     axisTick: {
       alignWithLabel: true
+    },
+    axisLabel: {
+      align: 'left'
     }
   },
   series: [

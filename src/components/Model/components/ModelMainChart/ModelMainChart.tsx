@@ -39,8 +39,8 @@ function ModelMainChart(): ReactElement {
         </Text>
         <Layout className={styles.btnGroup}>
           <div className={styles.charts}>
-            <Button onlyIcon iconLeft={IconLineAndBarChart} view="secondary" />
-            <Button onlyIcon iconLeft={IconInComparison} />
+            <Button onlyIcon iconLeft={IconLineAndBarChart} view="ghost" />
+            <Button onlyIcon iconLeft={IconInComparison} view="ghost" />
           </div>
           <div className={styles.actions}>
             <Button onlyIcon iconLeft={IconExpand} view="clear" />
@@ -49,7 +49,11 @@ function ModelMainChart(): ReactElement {
         </Layout>
       </Layout>
       <ModelTags tags={data?.map((param: Parameter) => param.description)} />
-      <Chart name={CHART_NAMES.MAIN_CHART} height={400} />
+      <Chart
+        className={styles.echart}
+        name={CHART_NAMES.MAIN_CHART}
+        height={400}
+      />
     </Layout>
   );
 }
