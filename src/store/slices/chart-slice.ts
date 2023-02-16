@@ -35,7 +35,7 @@ const chartSlice = createSlice({
 
       const { grid, series, yAxis } = state[name];
 
-      grid.left = `${data.length * 100 - 17}px`;
+      grid.left = `${data.length * 100 - 24}px`;
 
       yAxis.push(
         ...data.map((param: Parameter, index: number) => ({
