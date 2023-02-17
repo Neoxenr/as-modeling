@@ -5,7 +5,7 @@ import React, { ReactElement, useState } from 'react';
 import { Select as SelectConsta } from '@consta/uikit/Select';
 
 // Types
-import { SelectItem } from '../../types/items/select';
+import { SelectItem } from '../../types/item/select';
 
 const items: SelectItem[] = [
   { id: 1, label: 'AE' },

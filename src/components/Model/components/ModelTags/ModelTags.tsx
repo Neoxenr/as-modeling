@@ -16,7 +16,7 @@ import { IconAdd } from '@consta/icons/IconAdd';
 import { AppDispatch } from '../../../../store';
 
 // Store slices
-import { hideChartYAxis } from '../../../../store/slices/chart-slice';
+import { hideYAxis } from '../../../../store/slices/chart-slice';
 
 // Config chart names
 import { CHART_NAMES } from '../../../../config/chart/chart-names';
@@ -25,7 +25,8 @@ import { CHART_NAMES } from '../../../../config/chart/chart-names';
 import { convertArrayToObject } from '../../../../utilities';
 
 // Types
-import { Groups } from '../../../../types/chart/group';
+import { Tags } from '../../../../types/chart/tags';
+import { Group } from '../../../../types/group';
 
 // Components
 import Popover from '../../../Popover/Popover';
@@ -44,7 +45,7 @@ function ModelTags({ tags }: ModelTagsProps): ReactElement {
 
   const [items, setItems] = useState<string[]>([]);
 
-  const groups: Groups = useMemo(
+  const tagsMapping: Tags = useMemo(
     () => (tags ? convertArrayToObject(tags) : {}),
     [tags]
   );
@@ -64,7 +65,7 @@ function ModelTags({ tags }: ModelTagsProps): ReactElement {
               key={item}
               callback={(isVisible: boolean) =>
                 dispatch(
-                  hideChartYAxis({
+                  hideYAxis({
                     name: CHART_NAMES.MAIN_CHART,
                     data: {
                       axisName: item,
@@ -77,7 +78,7 @@ function ModelTags({ tags }: ModelTagsProps): ReactElement {
               <Tag
                 mode="info"
                 className={styles.param}
-                group={(groups[item] + 1) as any}
+                group={(tagsMapping[item] + 1) as Group}
                 label={item}
               />
             </Visible>

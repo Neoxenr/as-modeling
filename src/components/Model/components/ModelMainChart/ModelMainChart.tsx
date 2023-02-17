@@ -1,5 +1,5 @@
 // React
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useMemo } from 'react';
 
 // Consta components
 import { Layout } from '@consta/uikit/Layout';
@@ -31,6 +31,11 @@ import styles from './ModelMainChart.module.scss';
 function ModelMainChart(): ReactElement {
   const { data } = useGetParamsQuery();
 
+  const tags: string[] | undefined = useMemo(
+    () => data?.map((param: Parameter) => param.description),
+    [data]
+  );
+
   return (
     <Layout direction="column" className={styles.chart}>
       <Layout className={styles.header}>
@@ -48,7 +53,7 @@ function ModelMainChart(): ReactElement {
           </div>
         </Layout>
       </Layout>
-      <ModelTags tags={data?.map((param: Parameter) => param.description)} />
+      <ModelTags tags={tags} />
       <Chart
         className={styles.echart}
         name={CHART_NAMES.MAIN_CHART}

@@ -14,7 +14,7 @@ import { Text } from '@consta/uikit/Text';
 import { AppDispatch } from '../../../../store';
 
 // Store slices
-import { hideChartsArea } from '../../../../store/slices/chart-slice';
+import { hideAreasByGroupIndex } from '../../../../store/slices/chart-slice';
 
 // Config work kinds
 import { WORK_KINDS } from '../../../../config/work-kinds';
@@ -41,7 +41,7 @@ function ModelFooter(): ReactElement {
           <Visible
             callback={(isVisible: boolean) =>
               dispatch(
-                hideChartsArea({
+                hideAreasByGroupIndex({
                   names: [CHART_NAMES.MAIN_CHART, CHART_NAMES.ADDITIONAL_CHART],
                   data: {
                     areaIndex: work.id,

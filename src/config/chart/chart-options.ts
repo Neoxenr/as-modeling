@@ -3,12 +3,20 @@ import { Options } from '../../types/chart/options';
 
 // Line colors
 import { LINE_COLORS } from './line-colors';
+
+// Area colors
 import { AREA_COLORS } from './area-colors';
 
 export const CHART_OPTIONS: Options = {
   color: LINE_COLORS,
+  textStyle: {
+    fontFamily: 'Inter'
+  },
   tooltip: {
     trigger: 'axis',
+    textStyle: {
+      fontWeight: 'normal'
+    },
     axisPointer: {
       type: 'cross',
       label: {
@@ -28,7 +36,7 @@ export const CHART_OPTIONS: Options = {
   grid: {
     top: 30,
     bottom: 60,
-    right: '30',
+    right: '0',
     left: '30'
   },
   legend: {
@@ -42,7 +50,8 @@ export const CHART_OPTIONS: Options = {
       alignWithLabel: true
     },
     axisLabel: {
-      align: 'left'
+      align: 'center',
+      fontSize: 11
     }
   },
   series: [

@@ -14,7 +14,7 @@ import { CHART_NAMES } from '../../config/chart/chart-names';
 import { AppDispatch } from '../../store';
 
 // Store slices
-import { switchChartYAxis } from '../../store/slices/chart-slice';
+import { switchYAxis } from '../../store/slices/chart-slice';
 
 interface SwitchProps {
   label: string;
@@ -30,7 +30,7 @@ function Switch({ label, addItems }: SwitchProps): ReactElement {
     setIsChecked(!isChecked);
 
     dispatch(
-      switchChartYAxis({
+      switchYAxis({
         name: CHART_NAMES.MAIN_CHART,
         data: { yAxisName: label, isVisible: isChecked }
       })

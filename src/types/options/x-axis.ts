@@ -7,5 +7,6 @@ export interface XAxis {
   inverse?: boolean;
   axisLabel?: {
     align?: string;
+    fontSize?: number;
   };
 }

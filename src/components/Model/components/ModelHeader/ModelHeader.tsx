@@ -12,7 +12,7 @@ import { IconProcessing } from '@consta/icons/IconProcessing';
 import { IconHome } from '@consta/icons/IconHome';
 
 // Types
-import { BreadcrumbsItem } from '../../../../types/items/breadcrumbs';
+import { BreadcrumbsItem } from '../../../../types/item/breadcrumbs';
 
 // Components
 import Popover from '../../../Popover/Popover';
@@ -33,7 +33,12 @@ function ModelHeader(): ReactElement {
   return (
     <Layout className={styles.header}>
       <Layout flex={1} direction="column" className={styles.info}>
-        <Breadcrumbs onlyIconRoot size="l" items={items} />
+        <Breadcrumbs
+          className={styles.breadcrumbs}
+          onlyIconRoot
+          size="l"
+          items={items}
+        />
         <Layout direction="column" className={styles.description}>
           <Layout className={styles.name}>
             <Text weight="bold" size="xl">

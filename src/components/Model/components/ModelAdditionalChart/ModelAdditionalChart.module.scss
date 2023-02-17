@@ -26,6 +26,7 @@
           display: flex;
           align-items: center;
           justify-content: space-between;
+          border-radius: 4px;
           background-color: $button-bg-color;
         }
       }
@@ -33,6 +34,6 @@
   }
 
   .echart {
-    margin-left: 20px;
+    margin: 0 30px 0 20px;
   }
 }

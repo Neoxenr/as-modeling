@@ -10,6 +10,7 @@ import { Card } from '@consta/uikit/Card';
 import { Badge } from '@consta/uikit/Badge';
 import { Text } from '@consta/uikit/Text';
 import { Button } from '@consta/uikit/Button';
+import { List } from '@consta/uikit/ListCanary';
 
 // Consta icons
 import { IconClose } from '@consta/icons/IconClose';
@@ -17,17 +18,21 @@ import { IconClose } from '@consta/icons/IconClose';
 // Config chart names
 import { CHART_NAMES } from '../../../../config/chart/chart-names';
 
+// Config work kinds
+import { WORK_KINDS } from '../../../../config/work-kinds';
+
 // Store
 import { AppDispatch } from '../../../../store';
 
 // Store slices
-import { removeAreaFromCharts } from '../../../../store/slices/chart-slice';
+import {
+  removeArea,
+  removeAreasByGroupIndex
+} from '../../../../store/slices/chart-slice';
 
 // Types
 import { Period } from '../../../../types/chart/period';
-
-// Utilities
-import { convertPeriodToString } from '../../../../utilities';
+import { WorkKind } from '../../../../types/work-kind';
 
 // Components
 import ModelModal from '../ModelModal/ModelModal';
@@ -44,43 +49,72 @@ function ModelSider(): ReactElement {
     <Layout className={styles.sider} direction="column">
       <ModelModal addItems={setPeriods} />
       <Layout className={styles.periods} direction="column">
-        {periods.map((period: Period) => (
-          <Card key={period.id} className={styles.period} shadow={false}>
-            <Badge
-              size="m"
-              minified
-              status={period.status}
-              label={period.label}
-            />
-            <Text className={styles.text} size="xs">
-              {convertPeriodToString(period.date[0], period.date[1])}
-            </Text>
+        <List
+          items={periods}
+          groups={WORK_KINDS}
+          getItemGroupKey={(period: Period) => period.areaIndex}
+          getGroupRightSide={(workKind: WorkKind) => (
             <Button
-              onlyIcon
-              iconLeft={IconClose}
-              size="xs"
-              view="clear"
+              size="s"
+              view="ghost"
+              label="Удалить все"
               onClick={() => {
-                setPeriods(
-                  periods.filter((item: Period) => item.id !== period.id)
-                );
-
                 dispatch(
-                  removeAreaFromCharts({
+                  removeAreasByGroupIndex({
                     names: [
                       CHART_NAMES.MAIN_CHART,
                       CHART_NAMES.ADDITIONAL_CHART
                     ],
-                    data: {
-                      id: period.id,
-                      areaIndex: period.areaIndex
-                    }
+                    areaIndex: workKind.id
                   })
+                );
+
+                setPeriods(
+                  periods.filter(
+                    (period: Period) => period.areaIndex !== workKind.id
+                  )
                 );
               }}
             />
-          </Card>
-        ))}
+          )}
+          renderItem={(period: Period) => (
+            <Card key={period.id} className={styles.period} shadow={false}>
+              <Badge
+                size="m"
+                minified
+                status={period.status}
+                label={period.label}
+              />
+              <Text className={styles.text} size="xs">
+                {period.date}
+              </Text>
+              <Button
+                onlyIcon
+                iconLeft={IconClose}
+                size="xs"
+                view="clear"
+                onClick={() => {
+                  setPeriods(
+                    periods.filter((item: Period) => item.id !== period.id)
+                  );
+
+                  dispatch(
+                    removeArea({
+                      names: [
+                        CHART_NAMES.MAIN_CHART,
+                        CHART_NAMES.ADDITIONAL_CHART
+                      ],
+                      data: {
+                        id: period.id,
+                        areaIndex: period.areaIndex
+                      }
+                    })
+                  );
+                }}
+              />
+            </Card>
+          )}
+        />
       </Layout>
     </Layout>
   );

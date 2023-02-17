@@ -15,7 +15,7 @@ import { CHART_NAMES } from '../../config/chart/chart-names';
 import { AppDispatch } from '../../store';
 
 // Store slices
-import { addDataToChart } from '../../store/slices/chart-slice';
+import { addData } from '../../store/slices/chart-slice';
 
 // Services
 import { useGetParamsQuery } from '../../services/model';
@@ -37,10 +37,10 @@ function Model(): ReactElement {
 
   useEffect(() => {
     if (data) {
-      dispatch(addDataToChart({ name: CHART_NAMES.MAIN_CHART, data }));
+      dispatch(addData({ name: CHART_NAMES.MAIN_CHART, data }));
 
       dispatch(
-        addDataToChart({ name: CHART_NAMES.ADDITIONAL_CHART, data: [data[0]] })
+        addData({ name: CHART_NAMES.ADDITIONAL_CHART, data: [data[0]] })
       );
     }
   }, [data]);

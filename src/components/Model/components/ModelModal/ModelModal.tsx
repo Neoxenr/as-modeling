@@ -21,10 +21,10 @@ import { DatePicker } from '@consta/uikit/DatePicker';
 import { AppDispatch } from '../../../../store';
 
 // Store slices
-import { addAreaToCharts } from '../../../../store/slices/chart-slice';
+import { addArea } from '../../../../store/slices/chart-slice';
 
 // Utilities
-import { convertArrayToObject } from '../../../../utilities';
+import { convertPeriodToString } from '../../../../utilities';
 
 // Config work kinds
 import { WORK_KINDS } from '../../../../config/work-kinds';
@@ -62,8 +62,6 @@ function ModelModal({ addItems }: ModelModalProps): ReactElement {
     [data]
   );
 
-  const datesMapping = useMemo(() => convertArrayToObject(dates ?? []), [data]);
-
   const minDate = useMemo(
     () =>
       dates
@@ -84,32 +82,32 @@ function ModelModal({ addItems }: ModelModalProps): ReactElement {
   const handleOnClick = (): void => {
     const uuid: string = crypto.randomUUID();
 
-    const firstDate = (date?.[0] ?? new Date())?.toString();
-    const secondDate = (date?.[1] ?? new Date())?.toString();
+    const firstDate: Date = date?.[0] ?? new Date();
+    const secondDate: Date = date?.[1] ?? new Date();
 
     addItems((prevState: Period[]) => [
       ...prevState,
       {
         id: uuid,
-        date,
+        date: convertPeriodToString(firstDate, secondDate),
         status: workKind?.status,
         label: workKind?.label,
         areaIndex: workKind?.id
       } as Period
     ]);
 
-    setIsModalOpen(false);
-
     dispatch(
-      addAreaToCharts({
+      addArea({
         names: [CHART_NAMES.MAIN_CHART, CHART_NAMES.ADDITIONAL_CHART],
         data: {
           id: uuid,
           areaIndex: workKind?.id,
-          period: [datesMapping[firstDate], datesMapping[secondDate]]
+          period: [firstDate.getDate() - 1, secondDate.getDate() - 1]
         }
       })
     );
+
+    setIsModalOpen(false);
   };
 
   return (

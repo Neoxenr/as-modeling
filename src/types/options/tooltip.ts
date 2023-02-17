@@ -1,5 +1,8 @@
 export interface ToolTip {
   trigger: string;
+  textStyle: {
+    fontWeight: string;
+  };
   axisPointer: {
     type: string;
     label: {

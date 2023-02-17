@@ -30,12 +30,12 @@ const chartSlice = createSlice({
   name: 'charts',
   initialState,
   reducers: {
-    addDataToChart: (state, action) => {
+    addData: (state, action) => {
       const { name, data } = action.payload;
 
       const { grid, series, yAxis } = state[name];
 
-      grid.left = `${data.length * 100 - 24}px`;
+      grid.left = `${data.length * 100 - 20}px`;
 
       yAxis.push(
         ...data.map((param: Parameter, index: number) => ({
@@ -66,7 +66,7 @@ const chartSlice = createSlice({
         }))
       );
     },
-    addAreaToCharts: (state, action) => {
+    addArea: (state, action) => {
       const { names, data } = action.payload;
 
       const { id, areaIndex, period } = data;
@@ -84,7 +84,7 @@ const chartSlice = createSlice({
         ]);
       });
     },
-    removeAreaFromCharts: (state, action) => {
+    removeArea: (state, action) => {
       const { names, data } = action.payload;
 
       const { id, areaIndex } = data;
@@ -99,7 +99,20 @@ const chartSlice = createSlice({
         markArea.data = markArea.data.filter((item) => item[0].id !== id);
       });
     },
-    hideChartsArea: (state, action) => {
+    removeAreasByGroupIndex: (state, action) => {
+      const { names, areaIndex } = action.payload;
+
+      names.forEach((name: string) => {
+        const { series } = state[name];
+
+        const { markArea, markLine } = series[series.length - areaIndex - 1];
+
+        markLine.data = [];
+
+        markArea.data = [];
+      });
+    },
+    hideAreasByGroupIndex: (state, action) => {
       const { names, data } = action.payload;
 
       const { areaIndex, isVisible } = data;
@@ -116,7 +129,7 @@ const chartSlice = createSlice({
         markArea.itemStyle.opacity = opacity;
       });
     },
-    hideChartYAxis: (state, action) => {
+    hideYAxis: (state, action) => {
       const { name, data } = action.payload;
 
       const { axisName, isVisible } = data;
@@ -125,7 +138,7 @@ const chartSlice = createSlice({
 
       selected[axisName] = isVisible;
     },
-    switchChartYAxis: (state, action) => {
+    switchYAxis: (state, action) => {
       const { name, data } = action.payload;
 
       const { yAxisName, isVisible } = data;
@@ -141,6 +154,7 @@ const chartSlice = createSlice({
       grid.left = `${parseInt(grid.left, 10) + gridShift}px`;
 
       yAxis[selectedYAxisIndex].show = !isVisible;
+      console.log('selectedYAxisIndex :>> ', selectedYAxisIndex);
 
       for (let i = selectedYAxisIndex + 1; i < yAxis.length; i += 1) {
         yAxis[i].offset += gridShift;
@@ -148,7 +162,7 @@ const chartSlice = createSlice({
 
       legend.selected[yAxisName] = !isVisible;
     },
-    setChartOption: (state, action) => {
+    setOption: (state, action) => {
       const { name } = action.payload;
 
       const { fields, key, value } = action.payload.option;
@@ -161,13 +175,14 @@ const chartSlice = createSlice({
 });
 
 export const {
-  addDataToChart,
-  addAreaToCharts,
-  removeAreaFromCharts,
-  hideChartsArea,
-  hideChartYAxis,
-  switchChartYAxis,
-  setChartOption
+  addData,
+  addArea,
+  removeArea,
+  removeAreasByGroupIndex,
+  hideAreasByGroupIndex,
+  hideYAxis,
+  switchYAxis,
+  setOption
 } = chartSlice.actions;
 
 export default chartSlice.reducer;
