@@ -20,7 +20,7 @@ interface VisibleProps {
 function Visible({ callback, children }: VisibleProps): ReactElement {
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
-  const handleOnClick = () => {
+  const handleOnClick = (): void => {
     setIsVisible(!isVisible);
 
     callback(isVisible);

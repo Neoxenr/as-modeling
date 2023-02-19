@@ -1,3 +1,6 @@
+// Types
+import { Params } from './params';
+
 export interface ToolTip {
   trigger: string;
   textStyle: {
@@ -6,7 +9,7 @@ export interface ToolTip {
   axisPointer: {
     type: string;
     label: {
-      formatter: ((params: any) => string | number) | string;
+      formatter: ((params: Params) => string | number) | string;
     };
   };
   order?: string;

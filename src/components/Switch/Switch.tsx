@@ -26,7 +26,7 @@ function Switch({ label, addItems }: SwitchProps): ReactElement {
 
   const [isChecked, setIsChecked] = useState<boolean>(true);
 
-  const handleOnChange = () => {
+  const handleOnChange = (): void => {
     setIsChecked(!isChecked);
 
     dispatch(

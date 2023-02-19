@@ -13,7 +13,7 @@ import { LINE_COLORS } from '../../config/chart/line-colors';
 import { CHART_NAMES } from '../../config/chart/chart-names';
 
 // Utilites
-import { getPropValues, copyObjectToKeys } from '../../utilities';
+import { getNestedPropertyValues, copyObject } from '../../utilities';
 
 // Types
 import { YAxis } from '../../types/options/y-axis';
@@ -21,8 +21,8 @@ import { Point } from '../../types/chart/point';
 import { Parameter } from '../../types/chart/parameter';
 import { ChartState } from '../../types/chart/state';
 
-const initialState: ChartState = copyObjectToKeys(
-  Object.keys(CHART_NAMES),
+const initialState: ChartState = copyObject(
+  Object.values(CHART_NAMES),
   CHART_OPTIONS
 );
 
@@ -154,7 +154,6 @@ const chartSlice = createSlice({
       grid.left = `${parseInt(grid.left, 10) + gridShift}px`;
 
       yAxis[selectedYAxisIndex].show = !isVisible;
-      console.log('selectedYAxisIndex :>> ', selectedYAxisIndex);
 
       for (let i = selectedYAxisIndex + 1; i < yAxis.length; i += 1) {
         yAxis[i].offset += gridShift;
@@ -167,7 +166,7 @@ const chartSlice = createSlice({
 
       const { fields, key, value } = action.payload.option;
 
-      const optionValue = getPropValues(state[name], ...fields);
+      const optionValue = getNestedPropertyValues(state[name], ...fields);
 
       optionValue[key] = value;
     }

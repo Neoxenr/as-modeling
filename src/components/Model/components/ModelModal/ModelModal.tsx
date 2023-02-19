@@ -11,9 +11,7 @@ import React, {
 import { useDispatch } from 'react-redux';
 
 // Consta components
-import { Layout } from '@consta/uikit/Layout';
 import { Button } from '@consta/uikit/Button';
-import { Modal } from '@consta/uikit/Modal';
 import { Select } from '@consta/uikit/Select';
 import { DatePicker } from '@consta/uikit/DatePicker';
 
@@ -40,6 +38,9 @@ import { WorkKind } from '../../../../types/work-kind';
 import { Period } from '../../../../types/chart/period';
 import { Point } from '../../../../types/chart/point';
 
+// Components
+import Modal from '../../../Modal/Modal';
+
 // SCSS
 import styles from './ModelModal.module.scss';
 
@@ -50,26 +51,24 @@ interface ModelModalProps {
 function ModelModal({ addItems }: ModelModalProps): ReactElement {
   const dispatch: AppDispatch = useDispatch();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [date, setDate] = useState<[Date?, Date?] | null>(null);
   const [workKind, setWorkKind] = useState<WorkKind | null>(WORK_KINDS[0]);
 
   const { data } = useGetParamsQuery();
 
-  const dates = useMemo(
+  const dates: Date[] | undefined = useMemo(
     () => data?.[0].points.map((point: Point) => new Date(point.d)),
     [data]
   );
 
-  const minDate = useMemo(
+  const minDate: Date = useMemo(
     () =>
       dates
         ? new Date(Math.min(...dates.map((item: Date) => item.getTime())))
         : new Date(),
     [data]
   );
-  const maxDate = useMemo(
+  const maxDate: Date = useMemo(
     () =>
       dates
         ? new Date(Math.max(...dates.map((item: Date) => item.getTime())))
@@ -106,53 +105,48 @@ function ModelModal({ addItems }: ModelModalProps): ReactElement {
         }
       })
     );
-
-    setIsModalOpen(false);
   };
 
   return (
-    <>
-      <Button
-        className={styles.btn}
-        label="Добавить область"
-        view="secondary"
-        onClick={() => setIsModalOpen(true)}
+    <Modal
+      className={styles.modal}
+      openButton={
+        <Button
+          className={styles.openBtn}
+          label="Добавить область"
+          view="secondary"
+        />
+      }
+      closeButton={
+        <Button
+          className={styles.closeBtn}
+          disabled={isButtonDisabled}
+          label="Добавить область"
+          view="primary"
+          onClick={handleOnClick}
+        />
+      }
+    >
+      <DatePicker
+        minDate={minDate}
+        maxDate={maxDate}
+        type="date-range"
+        format="dd.MM.yyyy"
+        separator="."
+        placeholder="ДД.ММ.ГГГГ"
+        label="Период"
+        required
+        value={date}
+        onChange={({ value }) => setDate(value)}
+        withClearButton
       />
-      <Modal
-        className={styles.modal}
-        isOpen={isModalOpen}
-        onClickOutside={() => setIsModalOpen(false)}
-        onEsc={() => setIsModalOpen(false)}
-      >
-        <Layout className={styles.content} direction="column">
-          <DatePicker
-            minDate={minDate}
-            maxDate={maxDate}
-            type="date-range"
-            format="dd.MM.yyyy"
-            separator="."
-            placeholder="ДД.ММ.ГГГГ"
-            label="Период"
-            required
-            value={date}
-            onChange={({ value }) => setDate(value)}
-            withClearButton
-          />
-          <Select
-            label="Тип работы"
-            items={WORK_KINDS}
-            value={workKind}
-            onChange={({ value }) => setWorkKind(value)}
-          />
-          <Button
-            disabled={isButtonDisabled}
-            label="Добавить область"
-            view="primary"
-            onClick={handleOnClick}
-          />
-        </Layout>
-      </Modal>
-    </>
+      <Select
+        label="Тип работы"
+        items={WORK_KINDS}
+        value={workKind}
+        onChange={({ value }) => setWorkKind(value)}
+      />
+    </Modal>
   );
 }
 

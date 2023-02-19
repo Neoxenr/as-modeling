@@ -17,6 +17,7 @@ import { CHART_NAMES } from '../../../../config/chart/chart-names';
 
 // Components
 import Chart from '../../../Chart/Chart';
+import Modal from '../../../Modal/Modal';
 
 // SCSS
 import styles from './ModelAdditionalChart.module.scss';
@@ -41,7 +42,18 @@ function ModelAdditionalChart(): ReactElement {
             <Button view="secondary" label="Оптимизировать" />
           </Layout>
           <div className={styles.actions}>
-            <Button onlyIcon iconLeft={IconExpand} view="clear" />
+            <Modal
+              className={styles.modal}
+              openButton={
+                <Button onlyIcon iconLeft={IconExpand} view="clear" />
+              }
+            >
+              <Chart
+                className={styles.modalChart}
+                name={CHART_NAMES.ADDITIONAL_CHART}
+                height={window.innerHeight - 200}
+              />
+            </Modal>
             <Button onlyIcon iconLeft={IconClose} view="clear" />
           </div>
         </div>

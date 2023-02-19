@@ -6,7 +6,7 @@ import { Parameter } from '../types/chart/parameter';
 
 export const modelApi = createApi({
   reducerPath: 'modelApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'data/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: '/data' }),
   endpoints: (builder) => ({
     getParams: builder.query<Parameter[], void>({
       query: () => 'model.json'

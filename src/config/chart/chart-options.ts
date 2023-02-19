@@ -1,11 +1,12 @@
-// Types
-import { Options } from '../../types/chart/options';
-
 // Line colors
 import { LINE_COLORS } from './line-colors';
 
 // Area colors
 import { AREA_COLORS } from './area-colors';
+
+// Types
+import { Options } from '../../types/chart/options';
+import { Params } from '../../types/options/params';
 
 export const CHART_OPTIONS: Options = {
   color: LINE_COLORS,
@@ -20,7 +21,7 @@ export const CHART_OPTIONS: Options = {
     axisPointer: {
       type: 'cross',
       label: {
-        formatter: (params: any) => {
+        formatter: (params: Params) => {
           const { value } = params;
 
           if (typeof value === 'number') {

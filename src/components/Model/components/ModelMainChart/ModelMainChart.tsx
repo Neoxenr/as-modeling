@@ -21,6 +21,7 @@ import { CHART_NAMES } from '../../../../config/chart/chart-names';
 // Components
 import ModelTags from '../ModelTags/ModelTags';
 import Chart from '../../../Chart/Chart';
+import Modal from '../../../Modal/Modal';
 
 // Types
 import { Parameter } from '../../../../types/chart/parameter';
@@ -48,7 +49,18 @@ function ModelMainChart(): ReactElement {
             <Button onlyIcon iconLeft={IconInComparison} view="ghost" />
           </div>
           <div className={styles.actions}>
-            <Button onlyIcon iconLeft={IconExpand} view="clear" />
+            <Modal
+              className={styles.modal}
+              openButton={
+                <Button onlyIcon iconLeft={IconExpand} view="clear" />
+              }
+            >
+              <Chart
+                className={styles.modalChart}
+                name={CHART_NAMES.MAIN_CHART}
+                height={window.innerHeight - 200}
+              />
+            </Modal>
             <Button onlyIcon iconLeft={IconClose} view="clear" />
           </div>
         </Layout>

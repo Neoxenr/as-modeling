@@ -1,13 +1,12 @@
-.btn {
+.modal {
+  padding: 20px;
+}
+
+.openBtn {
+  width: 100%;
   margin-bottom: 10px;
 }
 
-.modal {
-  display: flex;
-  align-items: center;
-  padding: 20px;
-
-  .content {
-    row-gap: 20px;
-  }
+.closeBtn {
+  width: 100%;
 }

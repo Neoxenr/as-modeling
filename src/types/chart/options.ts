@@ -7,7 +7,6 @@ import { YAxis } from '../options/y-axis';
 import { TextStyle } from '../options/text-style';
 
 export interface Options {
-  [option: string]: any;
   textStyle: TextStyle;
   color: string[];
   tooltip: ToolTip;
