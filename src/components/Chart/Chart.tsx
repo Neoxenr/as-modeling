@@ -7,24 +7,26 @@ import { useSelector } from 'react-redux';
 // Echarts
 import ReactEcharts from 'echarts-for-react';
 
-// Types
-import { Options } from '../../types/chart/options';
-
 // Store
 import { RootState } from '../../store';
+
+// Types
+import { Options } from '../../types/chart/options';
 
 interface ChartProps {
   name: string;
   height: number;
+  className?: string;
 }
 
-function Chart({ name, height }: ChartProps): ReactElement {
+function Chart({ name, height, className }: ChartProps): ReactElement {
   const options: Options = useSelector(
-    (state: RootState) => state.chartsConfig[name]
+    (state: RootState) => state.charts[name]
   );
 
   return (
     <ReactEcharts
+      className={className}
       style={{ height: `${height}px` }}
       opts={{ renderer: 'svg' }}
       option={options}

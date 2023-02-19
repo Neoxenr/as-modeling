@@ -1,8 +1,5 @@
 // React
-import React, { ReactElement, useEffect } from 'react';
-
-// Redux
-import { useDispatch } from 'react-redux';
+import React, { ReactElement } from 'react';
 
 // Consta components
 import { Layout } from '@consta/uikit/Layout';
@@ -15,40 +12,18 @@ import { IconRemove } from '@consta/icons/IconRemove';
 import { IconClose } from '@consta/icons/IconClose';
 import { IconExpand } from '@consta/icons/IconExpand';
 
-// Store
-import { AppDispatch } from '../../../../store';
-
-// Store slices
-import { addDataToChart } from '../../../../store/slices/chart-slice';
-
-// Services
-import { useGetParamsQuery } from '../../../../services/model';
-
 // Config chart names
-import { CHART_NAMES } from '../../../../config/chart/names';
+import { CHART_NAMES } from '../../../../config/chart/chart-names';
 
 // Components
 import Chart from '../../../Chart/Chart';
+import Modal from '../../../Modal/Modal';
 
 // SCSS
 import styles from './ModelAdditionalChart.module.scss';
 
 function ModelAdditionalChart(): ReactElement {
-  const dispatch: AppDispatch = useDispatch();
-
-  const { data, isLoading } = useGetParamsQuery();
-
-  useEffect(() => {
-    if (data) {
-      dispatch(
-        addDataToChart({ name: CHART_NAMES.ADDITIONAL_CHART, data: [data[0]] })
-      );
-    }
-  }, [data]);
-
-  return isLoading ? (
-    <div>Loading...</div>
-  ) : (
+  return (
     <Layout direction="column" className={styles.chart}>
       <Layout className={styles.header}>
         <Text className={styles.title} size="s" weight="semibold">
@@ -64,19 +39,30 @@ function ModelAdditionalChart(): ReactElement {
               <Text>0.550</Text>
               <Button onlyIcon iconLeft={IconAdd} view="clear" />
             </div>
-            <Button
-              className={styles.btn}
-              view="ghost"
-              label="Оптимизировать"
-            />
+            <Button view="secondary" label="Оптимизировать" />
           </Layout>
           <div className={styles.actions}>
-            <Button onlyIcon iconLeft={IconExpand} view="clear" />
+            <Modal
+              className={styles.modal}
+              openButton={
+                <Button onlyIcon iconLeft={IconExpand} view="clear" />
+              }
+            >
+              <Chart
+                className={styles.modalChart}
+                name={CHART_NAMES.ADDITIONAL_CHART}
+                height={window.innerHeight - 200}
+              />
+            </Modal>
             <Button onlyIcon iconLeft={IconClose} view="clear" />
           </div>
         </div>
       </Layout>
-      <Chart name={CHART_NAMES.ADDITIONAL_CHART} height={300} />
+      <Chart
+        className={styles.echart}
+        name={CHART_NAMES.ADDITIONAL_CHART}
+        height={300}
+      />
     </Layout>
   );
 }

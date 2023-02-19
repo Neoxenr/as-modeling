@@ -1,10 +1,18 @@
+@import '../../../../styles/colors';
+
 .tags {
   margin: 15px 0 0 32px;
-  column-gap: 10px;
+  column-gap: 20px;
 
   .params {
     display: flex;
     column-gap: 20px;
+
+    .param {
+      width: 85px;
+      margin-top: 3px;
+      background-color: $tag-bg-color;
+    }
   }
 }
 

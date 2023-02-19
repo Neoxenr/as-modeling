@@ -18,11 +18,11 @@ function Popover({ button, children }: PopoverProps): ReactElement {
 
   const [isPopoverVisible, setIsPopoverVisible] = useState<boolean>(false);
 
-  const handleClickOnAnchor = () => {
+  const handleClickOnAnchor = (): void => {
     setIsPopoverVisible(!isPopoverVisible);
   };
 
-  const handleClickOnOutside = () => {
+  const handleClickOnOutside = (): void => {
     setIsPopoverVisible(false);
   };
 

@@ -7,32 +7,32 @@ import { useDispatch } from 'react-redux';
 // Consta components
 import { Switch as SwitchConsta } from '@consta/uikit/Switch';
 
+// Config chart names
+import { CHART_NAMES } from '../../config/chart/chart-names';
+
 // Store
 import { AppDispatch } from '../../store';
 
-// Config chart names
-import { CHART_NAMES } from '../../config/chart/names';
-
 // Store slices
-import { switchChartYAxis } from '../../store/slices/chart-slice';
+import { switchYAxis } from '../../store/slices/chart-slice';
 
-interface SwitchTagProps {
+interface SwitchProps {
   label: string;
   addItems: Dispatch<SetStateAction<string[]>>;
 }
 
-function SwitchTag({ label, addItems }: SwitchTagProps): ReactElement {
+function Switch({ label, addItems }: SwitchProps): ReactElement {
   const dispatch: AppDispatch = useDispatch();
 
   const [isChecked, setIsChecked] = useState<boolean>(true);
 
-  const handleOnChange = () => {
+  const handleOnChange = (): void => {
     setIsChecked(!isChecked);
 
     dispatch(
-      switchChartYAxis({
+      switchYAxis({
         name: CHART_NAMES.MAIN_CHART,
-        visible: { name: label, isVisible: isChecked }
+        data: { yAxisName: label, isVisible: isChecked }
       })
     );
 
@@ -50,4 +50,4 @@ function SwitchTag({ label, addItems }: SwitchTagProps): ReactElement {
   );
 }
 
-export default SwitchTag;
+export default Switch;

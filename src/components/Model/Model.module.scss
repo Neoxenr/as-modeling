@@ -1,5 +1,11 @@
 @import '../../styles/colors';
 
+.loading {
+  position: absolute;
+  left: calc(50% - 28px);
+  top: calc(50% - 28px);
+}
+
 .charts {
   border-right: 1px solid $charts-border-color;
   border-bottom: 1px solid $charts-border-color;

@@ -1,4 +1,4 @@
-export const COLORS = [
+export const LINE_COLORS = [
   '#e92064',
   '#b92eff',
   '#1160ff',

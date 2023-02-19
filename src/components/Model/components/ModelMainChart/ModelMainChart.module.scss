@@ -14,7 +14,7 @@
 
     .btnGroup {
       justify-content: flex-end;
-      margin-right: 10px;
+      margin-right: 20px;
       column-gap: 20px;
 
       .charts {
@@ -27,5 +27,17 @@
         column-gap: 5px;
       }
     }
+  }
+
+  .echart {
+    margin: 0 32px;
+  }
+}
+
+.modal {
+  padding: 20px 20px 0;
+
+  .modalChart {
+    width: 100vw;
   }
 }

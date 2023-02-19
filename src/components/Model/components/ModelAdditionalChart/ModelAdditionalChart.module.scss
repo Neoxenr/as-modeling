@@ -15,21 +15,38 @@
     .btnGroup {
       display: flex;
       column-gap: 30px;
+      margin-right: 20px;
+
+      .actions {
+        display: flex;
+        column-gap: 5px;
+      }
 
       .threshold {
         column-gap: 20px;
         align-items: center;
         
         .change {
+          width: 200px;
           display: flex;
           align-items: center;
+          justify-content: space-between;
+          border-radius: 4px;
           background-color: $button-bg-color;
         }
       }
-
-      .actions {
-        margin-right: 10px;
-      }
     }
+  }
+
+  .echart {
+    margin: 0 30px 0 20px;
+  }
+}
+
+.modal {
+  padding: 20px 20px 0;
+
+  .modalChart {
+    width: 100vw;
   }
 }

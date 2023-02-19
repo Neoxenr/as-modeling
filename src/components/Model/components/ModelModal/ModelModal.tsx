@@ -1,89 +1,152 @@
 // React
-import React, { Dispatch, ReactElement, SetStateAction, useState } from 'react';
+import React, {
+  Dispatch,
+  ReactElement,
+  SetStateAction,
+  useMemo,
+  useState
+} from 'react';
+
+// Redux
+import { useDispatch } from 'react-redux';
 
 // Consta components
-import { Layout } from '@consta/uikit/Layout';
 import { Button } from '@consta/uikit/Button';
-import { Modal } from '@consta/uikit/Modal';
-import { DatePicker } from '@consta/uikit/DatePicker';
 import { Select } from '@consta/uikit/Select';
+import { DatePicker } from '@consta/uikit/DatePicker';
+
+// Store
+import { AppDispatch } from '../../../../store';
+
+// Store slices
+import { addArea } from '../../../../store/slices/chart-slice';
+
+// Utilities
+import { convertPeriodToString } from '../../../../utilities';
+
+// Config work kinds
+import { WORK_KINDS } from '../../../../config/work-kinds';
+
+// Config chart names
+import { CHART_NAMES } from '../../../../config/chart/chart-names';
+
+// Services
+import { useGetParamsQuery } from '../../../../services/model';
 
 // Types
-import { Period } from '../../../../types/period';
-import { SelectItem } from '../../../../types/select-item';
+import { WorkKind } from '../../../../types/work-kind';
+import { Period } from '../../../../types/chart/period';
+import { Point } from '../../../../types/chart/point';
+
+// Components
+import Modal from '../../../Modal/Modal';
 
 // SCSS
 import styles from './ModelModal.module.scss';
-
-const items: SelectItem[] = [
-  { id: 1, label: 'Нормальная работа' },
-  { id: 2, label: 'Аномальная работа' },
-  { id: 3, label: 'Отказы' },
-  { id: 4, label: 'Офлайн' }
-];
 
 interface ModelModalProps {
   addItems: Dispatch<SetStateAction<Period[]>>;
 }
 
 function ModelModal({ addItems }: ModelModalProps): ReactElement {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const dispatch: AppDispatch = useDispatch();
 
   const [date, setDate] = useState<[Date?, Date?] | null>(null);
+  const [workKind, setWorkKind] = useState<WorkKind | null>(WORK_KINDS[0]);
 
-  const [workType, setWorkType] = useState<SelectItem | null>(items[0]);
+  const { data } = useGetParamsQuery();
 
-  const handleOnClick = () => {
+  const dates: Date[] | undefined = useMemo(
+    () => data?.[0].points.map((point: Point) => new Date(point.d)),
+    [data]
+  );
+
+  const minDate: Date = useMemo(
+    () =>
+      dates
+        ? new Date(Math.min(...dates.map((item: Date) => item.getTime())))
+        : new Date(),
+    [data]
+  );
+  const maxDate: Date = useMemo(
+    () =>
+      dates
+        ? new Date(Math.max(...dates.map((item: Date) => item.getTime())))
+        : new Date(),
+    [data]
+  );
+
+  const isButtonDisabled: boolean = date ? !date[0] || !date[1] : true;
+
+  const handleOnClick = (): void => {
     const uuid: string = crypto.randomUUID();
+
+    const firstDate: Date = date?.[0] ?? new Date();
+    const secondDate: Date = date?.[1] ?? new Date();
 
     addItems((prevState: Period[]) => [
       ...prevState,
-      { id: uuid, date, workType: workType?.label } as Period
+      {
+        id: uuid,
+        date: convertPeriodToString(firstDate, secondDate),
+        status: workKind?.status,
+        label: workKind?.label,
+        areaIndex: workKind?.id
+      } as Period
     ]);
 
-    setIsModalOpen(false);
+    dispatch(
+      addArea({
+        names: [CHART_NAMES.MAIN_CHART, CHART_NAMES.ADDITIONAL_CHART],
+        data: {
+          id: uuid,
+          areaIndex: workKind?.id,
+          period: [firstDate.getDate() - 1, secondDate.getDate() - 1]
+        }
+      })
+    );
   };
 
-  const buttonIsDisabled: boolean = date ? !date[0] || !date[1] : true;
-
   return (
-    <>
-      <Button
-        className={styles.btn}
-        label="Добавить область"
-        view="secondary"
-        onClick={() => setIsModalOpen(true)}
+    <Modal
+      className={styles.modal}
+      openButton={
+        <Button
+          className={styles.openBtn}
+          label="Добавить область"
+          view="secondary"
+        />
+      }
+      closeButton={
+        <Button
+          className={styles.closeBtn}
+          disabled={isButtonDisabled}
+          label="Добавить область"
+          view="primary"
+          onClick={handleOnClick}
+        />
+      }
+    >
+      <DatePicker
+        minDate={minDate}
+        maxDate={maxDate}
+        type="date-range"
+        format="dd.MM.yyyy"
+        separator="."
+        placeholder="ДД.ММ.ГГГГ"
+        label="Период"
+        required
+        value={date}
+        onChange={({ value }) => setDate(value)}
+        withClearButton
       />
-      <Modal
-        className={styles.modal}
-        isOpen={isModalOpen}
-        onClickOutside={() => setIsModalOpen(false)}
-        onEsc={() => setIsModalOpen(false)}
-      >
-        <Layout className={styles.content} direction="column">
-          <DatePicker
-            type="date-time-range"
-            label="Период"
-            required
-            value={date}
-            onChange={({ value }) => setDate(value)}
-            withClearButton
-          />
-          <Select
-            label="Тип работы"
-            items={items}
-            value={workType}
-            onChange={({ value }) => setWorkType(value)}
-          />
-          <Button
-            disabled={buttonIsDisabled}
-            label="Добавить область"
-            view="primary"
-            onClick={handleOnClick}
-          />
-        </Layout>
-      </Modal>
-    </>
+      <Select
+        label="Тип работы"
+        items={WORK_KINDS}
+        value={workKind}
+        onChange={({ value }) => setWorkKind(value)}
+      />
+    </Modal>
   );
 }
 

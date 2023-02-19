@@ -1,8 +1,5 @@
 // React
-import React, { ReactElement, useEffect } from 'react';
-
-// Redux
-import { useDispatch } from 'react-redux';
+import React, { ReactElement, useMemo } from 'react';
 
 // Consta components
 import { Layout } from '@consta/uikit/Layout';
@@ -15,21 +12,16 @@ import { IconExpand } from '@consta/icons/IconExpand';
 import { IconInComparison } from '@consta/icons/IconInComparison';
 import { IconLineAndBarChart } from '@consta/icons/IconLineAndBarChart';
 
-// Store
-import { AppDispatch } from '../../../../store';
-
-// Store slices
-import { addDataToChart } from '../../../../store/slices/chart-slice';
-
 // Services
 import { useGetParamsQuery } from '../../../../services/model';
 
 // Config chart names
-import { CHART_NAMES } from '../../../../config/chart/names';
+import { CHART_NAMES } from '../../../../config/chart/chart-names';
 
 // Components
 import ModelTags from '../ModelTags/ModelTags';
 import Chart from '../../../Chart/Chart';
+import Modal from '../../../Modal/Modal';
 
 // Types
 import { Parameter } from '../../../../types/chart/parameter';
@@ -38,19 +30,14 @@ import { Parameter } from '../../../../types/chart/parameter';
 import styles from './ModelMainChart.module.scss';
 
 function ModelMainChart(): ReactElement {
-  const dispatch: AppDispatch = useDispatch();
+  const { data } = useGetParamsQuery();
 
-  const { data, isLoading } = useGetParamsQuery();
+  const tags: string[] | undefined = useMemo(
+    () => data?.map((param: Parameter) => param.description),
+    [data]
+  );
 
-  useEffect(() => {
-    if (data) {
-      dispatch(addDataToChart({ name: CHART_NAMES.MAIN_CHART, data }));
-    }
-  }, [data]);
-
-  return isLoading ? (
-    <div>Loading...</div>
-  ) : (
+  return (
     <Layout direction="column" className={styles.chart}>
       <Layout className={styles.header}>
         <Text className={styles.title} size="s" weight="semibold">
@@ -58,17 +45,32 @@ function ModelMainChart(): ReactElement {
         </Text>
         <Layout className={styles.btnGroup}>
           <div className={styles.charts}>
-            <Button onlyIcon iconLeft={IconLineAndBarChart} view="secondary" />
-            <Button onlyIcon iconLeft={IconInComparison} />
+            <Button onlyIcon iconLeft={IconLineAndBarChart} view="ghost" />
+            <Button onlyIcon iconLeft={IconInComparison} view="ghost" />
           </div>
           <div className={styles.actions}>
-            <Button onlyIcon iconLeft={IconExpand} view="clear" />
+            <Modal
+              className={styles.modal}
+              openButton={
+                <Button onlyIcon iconLeft={IconExpand} view="clear" />
+              }
+            >
+              <Chart
+                className={styles.modalChart}
+                name={CHART_NAMES.MAIN_CHART}
+                height={window.innerHeight - 200}
+              />
+            </Modal>
             <Button onlyIcon iconLeft={IconClose} view="clear" />
           </div>
         </Layout>
       </Layout>
-      <ModelTags tags={data?.map((param: Parameter) => param.description)} />
-      <Chart name={CHART_NAMES.MAIN_CHART} height={400} />
+      <ModelTags tags={tags} />
+      <Chart
+        className={styles.echart}
+        name={CHART_NAMES.MAIN_CHART}
+        height={400}
+      />
     </Layout>
   );
 }
